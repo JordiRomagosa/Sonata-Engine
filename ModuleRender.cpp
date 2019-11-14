@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL/SDL.h"
 #include "GL/glew.h"
 
@@ -81,5 +82,6 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 	windowWidth = width;
 	windowHeight = height;
+	App->camera->SetAspectRatio(width, height);
 }
 
