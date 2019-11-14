@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
+#include "ModuleProgram.h"
 #include "SDL/SDL.h"
 #include "GL/glew.h"
 
@@ -32,6 +33,7 @@ bool ModuleRender::Init()
 	LOG("Renderer: %s", glGetString(GL_RENDERER));
 	LOG("OpenGL version supported %s", glGetString(GL_VERSION));
 	LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glClearDepth(1.0f);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
@@ -59,7 +61,11 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
+	math::float4x4 model = math::float4x4::FromTRS(float3(0, 0, 0), math::float3x3::RotateX(0.0f) * math::float3x3::RotateY(0.0f), math::float3(1.0f, 1.0f, 1.0f));
+	math::float4x4 view = App->camera->GetViewMatrix();
+	math::float4x4 proj = App->camera->GetProjectionMatrix();
 
+	RenderGrid(model, view, proj);
 	return UPDATE_CONTINUE;
 }
 
@@ -85,3 +91,51 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 	App->camera->SetAspectRatio(width, height);
 }
 
+void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj)
+{
+	glUseProgram(App->program->gridProgram);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->gridProgram,
+		"model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->gridProgram,
+		"view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->gridProgram,
+		"proj"), 1, GL_TRUE, &proj[0][0]);
+
+	glLineWidth(1.0f);
+	float d = 200.0f;
+	glBegin(GL_LINES);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
+
+	glLineWidth(2.0f);
+	glBegin(GL_LINES);
+	// red X
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+	// green Y
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+	// blue Z
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+	glEnd();
+	glLineWidth(1.0f);
+
+	glUseProgram(0);
+}

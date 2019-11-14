@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "MathGeoLib/MathGeoLib.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -23,9 +24,10 @@ public:
 
 private:
 	void* context;
-
 	int windowWidth = 0;
 	int windowHeight = 0;
+
+	void RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj);
 };
 
 #endif __ModuleRender_H__

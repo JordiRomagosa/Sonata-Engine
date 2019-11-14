@@ -18,7 +18,7 @@ bool ModuleCamera::Init()
 	float aspect = float(w) / float(h);
 
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3(0, -1, -2);
+	frustum.pos = float3(0, 1, -2);
 	frustum.front = float3::unitZ;
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
@@ -40,5 +40,5 @@ math::float4x4 ModuleCamera::GetProjectionMatrix() {
 void ModuleCamera::SetAspectRatio(float height, float width)
 {
 	float aspect = height / width;
-	frustum.horizontalFov = frustum.verticalFov * aspect;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 }
