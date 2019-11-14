@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Application_CPP__
+#define __Application_CPP__
+
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
@@ -57,3 +59,5 @@ bool Application::CleanUp()
 
 	return ret;
 }
+
+#endif __Application_CPP__
