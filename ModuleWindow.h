@@ -27,6 +27,9 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
+
+	//The OpenGL context associated with the window
+	SDL_GLContext glcontext = NULL;
 };
 
 #endif __ModuleWindow_H__

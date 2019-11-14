@@ -23,6 +23,9 @@ public:
 
 private:
 	void* context;
+
+	int windowWidth = 0;
+	int windowHeight = 0;
 };
 
 #endif __ModuleRender_H__
