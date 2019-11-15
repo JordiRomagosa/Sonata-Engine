@@ -25,7 +25,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	
 	GLenum err = glewInit();
 	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
@@ -88,7 +88,7 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 	windowWidth = width;
 	windowHeight = height;
-	App->camera->SetAspectRatio(width, height);
+	App->camera->SetAspectRatio((float)width, (float)height);
 }
 
 void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj)
@@ -105,7 +105,7 @@ void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, mat
 	glLineWidth(1.0f);
 	float d = 200.0f;
 	glBegin(GL_LINES);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	for (float i = -d; i <= d; i += 1.0f)
 	{
 		glVertex3f(i, 0.0f, -d);
@@ -118,18 +118,18 @@ void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, mat
 	glLineWidth(2.0f);
 	glBegin(GL_LINES);
 	// red X
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	//glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
 	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
 	// green Y
-	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+	//glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
 	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
 	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
 	// blue Z
-	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	//glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
 	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);

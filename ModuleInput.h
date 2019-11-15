@@ -17,6 +17,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void ControlCameraInputKeys();
+
 private:
 	const Uint8 *keyboard = NULL;
 };
