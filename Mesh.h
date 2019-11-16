@@ -1,8 +1,9 @@
 #ifndef __Mesh_H__
 #define __Mesh_H__
 
-#include <vector>
 #include "MathGeoLib/MathGeoLib.h"
+#include "ModuleTexture.h"
+#include <vector>
 
 struct Vertex {
 	float3 Position;
@@ -16,9 +17,9 @@ public:
 	/*  Mesh Data  */
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	//std::vector<Texture> textures;
+	std::vector<Texture> textures;
 	/*  Functions  */
-	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices/*, std::vector<Texture>& textures*/);
+	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
 	~Mesh();
 	void Draw(unsigned int program) const;
 

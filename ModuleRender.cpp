@@ -6,7 +6,7 @@
 #include "ModuleProgram.h"
 #include "ModuleModelLoader.h"
 #include "SDL/SDL.h"
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 ModuleRender::ModuleRender()
 {

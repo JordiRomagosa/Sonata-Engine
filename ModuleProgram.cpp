@@ -1,6 +1,7 @@
 #include "ModuleProgram.h"
 #include "SDL/SDL.h"
-#include "GL/glew.h"
+#include <IL/il.h>
+#include <GL/glew.h>
 
 
 ModuleProgram::ModuleProgram()

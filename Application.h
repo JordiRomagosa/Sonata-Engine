@@ -11,6 +11,7 @@ class ModuleInput;
 class ModuleCamera;
 class ModuleProgram;
 class ModuleModelLoader;
+class ModuleTexture;
 
 class Application
 {
@@ -30,6 +31,7 @@ public:
 	ModuleCamera* camera = nullptr;
 	ModuleProgram* program = nullptr;
 	ModuleModelLoader* modelLoader = nullptr;
+	ModuleTexture* texture = nullptr;
 
 private:
 

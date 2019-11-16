@@ -8,6 +8,7 @@
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
 #include "ModuleModelLoader.h"
+#include "ModuleTexture.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ Application::Application()
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(camera = new ModuleCamera());
+	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(modelLoader = new ModuleModelLoader());

@@ -14,6 +14,7 @@ public:
 	~ModuleModelLoader();
 
 	bool Init();
+
 	void Draw(unsigned int program);
 	void loadModel(std::string path);
 

@@ -1,9 +1,10 @@
 #include "Globals.h"
+#include "Application.h"
 #include "ModuleModelLoader.h"
+#include "ModuleTexture.h"
 
 #include <Assimp/cimport.h>
 #include <Assimp/postprocess.h>
-//#include <Assimp/Importer.hpp>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 	//Filling data
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
-	//std::vector<Texture> textures;
+	std::vector<Texture> textures;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -114,28 +115,28 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 	}
 	// process material
 
-	//if (mesh->mMaterialIndex >= 0)
-	//{
-	//	aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-	//	// 1. diffuse maps
-	//	std::vector<Texture> diffuseMaps = App->texture->loadMaterialTextures(material,
-	//		aiTextureType_DIFFUSE, "texture_diffuse", directory);
-	//	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	//	// 2. specular maps
-	//	std::vector<Texture> specularMaps = App->texture->loadMaterialTextures(material,
-	//		aiTextureType_SPECULAR, "texture_specular", directory);
-	//	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	//	// 3. normal maps
-	//	std::vector<Texture> normalMaps = App->texture->loadMaterialTextures(material,
-	//		aiTextureType_HEIGHT, "texture_normal", directory);
-	//	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	//	// 4. height maps
-	//	std::vector<Texture> heightMaps = App->texture->loadMaterialTextures(material,
-	//		aiTextureType_AMBIENT, "texture_height", directory);
-	//	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-	//}
+	if (mesh->mMaterialIndex >= 0)
+	{
+		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+		// 1. diffuse maps
+		std::vector<Texture> diffuseMaps = App->texture->loadMaterialTextures(material,
+			aiTextureType_DIFFUSE, "texture_diffuse", directory);
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// 2. specular maps
+		std::vector<Texture> specularMaps = App->texture->loadMaterialTextures(material,
+			aiTextureType_SPECULAR, "texture_specular", directory);
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		// 3. normal maps
+		std::vector<Texture> normalMaps = App->texture->loadMaterialTextures(material,
+			aiTextureType_HEIGHT, "texture_normal", directory);
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		// 4. height maps
+		std::vector<Texture> heightMaps = App->texture->loadMaterialTextures(material,
+			aiTextureType_AMBIENT, "texture_height", directory);
+		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	}
 
-	return Mesh(vertices, indices/*, textures*/);
+	return Mesh(vertices, indices, textures);
 }
 
 string ModuleModelLoader::computeDirectory(const string path)
