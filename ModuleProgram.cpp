@@ -23,6 +23,16 @@ bool ModuleProgram::Init()
 
 	CompileProgram(gridProgram, vertexShader, fragmentShader);
 
+	vertexData = LoadShader("../Shaders/model.vs");
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	CompileShader(vertexShader, vertexData);
+
+	fragmentData = LoadShader("../Shaders/model.fs");
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	CompileShader(fragmentShader, fragmentData);
+
+	CompileProgram(modelProgram, vertexShader, fragmentShader);
+
 	return true;
 }
 

@@ -12,6 +12,7 @@ public:
 	bool Init();
 
 	unsigned int gridProgram;
+	unsigned int modelProgram;
 
 private:
 	char * LoadShader(char * filename);

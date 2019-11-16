@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
+#include "ModuleModelLoader.h"
 #include "SDL/SDL.h"
 #include "GL/glew.h"
 
@@ -66,6 +67,19 @@ update_status ModuleRender::Update()
 	math::float4x4 proj = App->camera->GetProjectionMatrix();
 
 	RenderGrid(model, view, proj);
+
+	glUseProgram(App->program->modelProgram);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+		"model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+		"view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+		"proj"), 1, GL_TRUE, &proj[0][0]);
+
+	App->modelLoader->Draw(App->program->gridProgram);
+	glUseProgram(0);
+	
 	return UPDATE_CONTINUE;
 }
 

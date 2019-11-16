@@ -115,6 +115,13 @@
     <ClCompile Include="Dependencies\Include\MathGeoLib\Algorithm\Random\LCG.cpp">
       <Filter>Lib\MathGeoLib</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleModelLoader.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ModuleTexture.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -317,6 +324,13 @@
     <ClInclude Include="Dependencies\Include\MathGeoLib\Algorithm\Random\LCG.h">
       <Filter>Lib\MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleModelLoader.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ModuleTexture.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -356,6 +370,12 @@
     </None>
     <None Include="Dependencies\Include\MathGeoLib\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>Lib\MathGeoLib</Filter>
+    </None>
+    <None Include="Shaders\model.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\model.fs">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ class ModuleWindow;
 class ModuleInput;
 class ModuleCamera;
 class ModuleProgram;
+class ModuleModelLoader;
 
 class Application
 {
@@ -28,6 +29,7 @@ public:
 	ModuleInput* input = nullptr;
 	ModuleCamera* camera = nullptr;
 	ModuleProgram* program = nullptr;
+	ModuleModelLoader* modelLoader = nullptr;
 
 private:
 
