@@ -21,6 +21,7 @@ public:
 private:
 	Frustum frustum;
 	float3 cameraRight;
+	float3 cameraAdvance;
 	
 	float currentPitch = 0;
 	float cameraMovementSpeed = 0.01f;

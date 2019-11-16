@@ -28,7 +28,7 @@ bool ModuleCamera::Init()
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
-
+	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraRight.Normalize();
 	return true;
 }
 
@@ -63,9 +63,9 @@ void ModuleCamera::TranslateCamera(int x, int y, int z, bool shift)
 		frustum.pos -= float3(0, 1, 0) * cameraMovementSpeed * speedMult;
 
 	if (z > 0)
-		frustum.pos += frustum.front * cameraMovementSpeed * speedMult;
+		frustum.pos += cameraAdvance * cameraMovementSpeed * speedMult;
 	else if (z < 0)
-		frustum.pos -= frustum.front * cameraMovementSpeed * speedMult;
+		frustum.pos -= cameraAdvance * cameraMovementSpeed * speedMult;
 }
 
 void ModuleCamera::RotateCamera(int pitch, int yaw)
@@ -101,4 +101,5 @@ void ModuleCamera::RotateCamera(int pitch, int yaw)
 	}
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
+	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraRight.Normalize();
 }
