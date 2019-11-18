@@ -135,7 +135,7 @@ void ModuleCamera::OrbitCamera(float yaw, float pitch)
 		else
 			currentPitch += pitch * cameraRotationSpeed;
 
-		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(pitch * cameraRotationSpeed));
+		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(-1.0 * pitch * cameraRotationSpeed));
 		frustum.pos = rot.Transform(frustum.pos - center) + center;
 	}
 

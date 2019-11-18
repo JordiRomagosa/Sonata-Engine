@@ -107,6 +107,7 @@ void ModuleInput::ControlCameraInputKeys()
 void ModuleInput::ControlCameraEvents(SDL_Event & event)
 {
 	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
+	bool alt = keyboard[SDL_SCANCODE_LALT] || keyboard[SDL_SCANCODE_RALT];
 
 	switch (event.type)
 	{
@@ -138,7 +139,7 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 		if (rightMousePressed)
 			App->camera->TranslateCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY, 0, shift);
 
-		else if (leftMousePressed)
+		else if (leftMousePressed && alt)
 			App->camera->OrbitCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY);
 
 		lastMouseX = currentMouseX;
