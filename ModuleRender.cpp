@@ -27,6 +27,9 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+	if (VSYNC)
+		SDL_GL_SetSwapInterval(1);
 	
 	GLenum err = glewInit();
 	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
