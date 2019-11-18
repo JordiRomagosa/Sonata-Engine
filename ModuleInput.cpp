@@ -120,11 +120,15 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 
 		if (event.button.button == SDL_BUTTON_RIGHT)
 			rightMousePressed = true;
+		else if (event.button.button == SDL_BUTTON_LEFT)
+			leftMousePressed = true;
 		break;
 
 	case SDL_MOUSEBUTTONUP:
 		if (event.button.button == SDL_BUTTON_RIGHT)
 			rightMousePressed = false;
+		if (event.button.button == SDL_BUTTON_LEFT)
+			leftMousePressed = false;
 		break;
 
 	case SDL_MOUSEMOTION:
@@ -133,6 +137,9 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 
 		if (rightMousePressed)
 			App->camera->TranslateCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY, 0, shift);
+
+		else if (leftMousePressed)
+			App->camera->OrbitCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY);
 
 		lastMouseX = currentMouseX;
 		lastMouseY = currentMouseY;

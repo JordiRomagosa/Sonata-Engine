@@ -25,6 +25,7 @@ private:
 	float lastMouseX = -1, lastMouseY = -1;
 	float currentMouseX, currentMouseY;
 	bool rightMousePressed = false;
+	bool leftMousePressed = false;
 };
 
 #endif __ModuleInput_H__
