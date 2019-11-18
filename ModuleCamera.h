@@ -15,7 +15,7 @@ public:
 	math::float4x4 GetViewMatrix();
 	math::float4x4 GetProjectionMatrix();
 	void SetAspectRatio(float height, float width);
-	void TranslateCamera(int x, int y, int z, bool shift);
+	void TranslateCamera(float x, float y, float z, bool shift);
 	void RotateCamera(int pitch, int yaw);
 	void ZoomCamera(bool zoomIn, bool shift);
 

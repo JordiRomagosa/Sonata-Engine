@@ -46,26 +46,18 @@ void ModuleCamera::SetAspectRatio(float height, float width)
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 }
 
-void ModuleCamera::TranslateCamera(int x, int y, int z, bool shift)
+void ModuleCamera::TranslateCamera(float x, float y, float z, bool shift)
 {
 	float speedMult = 1;
 	if (shift)
 		speedMult = shiftSpeedMultiplier;
 
-	if (x > 0)
-		frustum.pos -= cameraRight * cameraMovementSpeed * speedMult;
-	else if (x < 0)
-		frustum.pos += cameraRight * cameraMovementSpeed * speedMult;
-
-	if (y > 0)
-		frustum.pos += float3(0, 1, 0) * cameraMovementSpeed * speedMult;
-	else if (y < 0)
-		frustum.pos -= float3(0, 1, 0) * cameraMovementSpeed * speedMult;
-
-	if (z > 0)
-		frustum.pos += cameraAdvance * cameraMovementSpeed * speedMult;
-	else if (z < 0)
-		frustum.pos -= cameraAdvance * cameraMovementSpeed * speedMult;
+	if (x != 0)
+		frustum.pos -= x * cameraRight * cameraMovementSpeed * speedMult;
+	if (y != 0)
+		frustum.pos -= y * float3(0, 1, 0) * cameraMovementSpeed * speedMult;
+	if (z != 0)
+		frustum.pos += z * cameraAdvance * cameraMovementSpeed * speedMult;
 }
 
 void ModuleCamera::RotateCamera(int pitch, int yaw)
@@ -107,9 +99,9 @@ void ModuleCamera::RotateCamera(int pitch, int yaw)
 void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
 {
 	float3 cameraFront = frustum.front; cameraFront.Normalize();
-	float speedMult = 5;
+	float speedMult = 10;
 	if (shift)
-		speedMult *= 2* shiftSpeedMultiplier;
+		speedMult *= 2 * shiftSpeedMultiplier;
 
 	if (zoomIn)
 		frustum.pos += cameraFront * cameraMovementSpeed * speedMult;

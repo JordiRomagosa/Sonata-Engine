@@ -83,9 +83,9 @@ void ModuleInput::ControlCameraInputKeys()
 	else if (keyboard[SDL_SCANCODE_S] && !keyboard[SDL_SCANCODE_W])
 		moveZ = -1;
 	if (keyboard[SDL_SCANCODE_Q] && !keyboard[SDL_SCANCODE_E])
-		moveY = 1;
-	else if (keyboard[SDL_SCANCODE_E] && !keyboard[SDL_SCANCODE_Q])
 		moveY = -1;
+	else if (keyboard[SDL_SCANCODE_E] && !keyboard[SDL_SCANCODE_Q])
+		moveY = 1;
 
 	App->camera->TranslateCamera(moveX, moveY, moveZ, shift);
 
@@ -112,6 +112,30 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 	{
 	case SDL_MOUSEWHEEL:
 		App->camera->ZoomCamera(event.wheel.y > 0, shift);
+		break;
+
+	case SDL_MOUSEBUTTONDOWN:
+		lastMouseX = event.button.x;
+		lastMouseY = event.button.y;
+
+		if (event.button.button == SDL_BUTTON_RIGHT)
+			rightMousePressed = true;
+		break;
+
+	case SDL_MOUSEBUTTONUP:
+		if (event.button.button == SDL_BUTTON_RIGHT)
+			rightMousePressed = false;
+		break;
+
+	case SDL_MOUSEMOTION:
+		currentMouseX = event.button.x;
+		currentMouseY = event.button.y;
+
+		if (rightMousePressed)
+			App->camera->TranslateCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY, 0, shift);
+
+		lastMouseX = currentMouseX;
+		lastMouseY = currentMouseY;
 		break;
 	}
 }

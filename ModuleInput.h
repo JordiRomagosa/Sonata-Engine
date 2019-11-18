@@ -22,6 +22,9 @@ public:
 
 private:
 	const Uint8 *keyboard = NULL;
+	float lastMouseX = -1, lastMouseY = -1;
+	float currentMouseX, currentMouseY;
+	bool rightMousePressed = false;
 };
 
 #endif __ModuleInput_H__
