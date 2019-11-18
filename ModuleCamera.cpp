@@ -48,7 +48,7 @@ void ModuleCamera::SetAspectRatio(float height, float width)
 
 void ModuleCamera::TranslateCamera(int x, int y, int z, bool shift)
 {
-	int speedMult = 1;
+	float speedMult = 1;
 	if (shift)
 		speedMult = shiftSpeedMultiplier;
 
@@ -103,3 +103,18 @@ void ModuleCamera::RotateCamera(int pitch, int yaw)
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
 	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraRight.Normalize();
 }
+
+void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
+{
+	float3 cameraFront = frustum.front; cameraFront.Normalize();
+	float speedMult = 5;
+	if (shift)
+		speedMult *= 2* shiftSpeedMultiplier;
+
+	if (zoomIn)
+		frustum.pos += cameraFront * cameraMovementSpeed * speedMult;
+	else
+		frustum.pos -= cameraFront * cameraMovementSpeed * speedMult;
+}
+
+

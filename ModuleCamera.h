@@ -17,6 +17,7 @@ public:
 	void SetAspectRatio(float height, float width);
 	void TranslateCamera(int x, int y, int z, bool shift);
 	void RotateCamera(int pitch, int yaw);
+	void ZoomCamera(bool zoomIn, bool shift);
 
 private:
 	Frustum frustum;
@@ -25,7 +26,7 @@ private:
 	
 	float currentPitch = 0;
 	float cameraMovementSpeed = 0.01f;
-	int shiftSpeedMultiplier = 2;
+	float shiftSpeedMultiplier = 2;
 	float cameraRotationSpeed = 0.05f;
 };
 

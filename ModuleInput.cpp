@@ -3,7 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleCamera.h"
-#include "SDL/SDL.h"
+
 
 ModuleInput::ModuleInput()
 {}
@@ -33,6 +33,8 @@ update_status ModuleInput::Update()
 {
 	SDL_PumpEvents();
 
+	keyboard = SDL_GetKeyboardState(NULL);
+
 	SDL_Event sdlEvent;
 	while (SDL_PollEvent(&sdlEvent) != 0)
 	{
@@ -46,9 +48,8 @@ update_status ModuleInput::Update()
 				App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
 			break;
 		}
+		ControlCameraEvents(sdlEvent);
 	}
-
-	keyboard = SDL_GetKeyboardState(NULL);
 
 	if (keyboard[SDL_SCANCODE_ESCAPE])
 		return UPDATE_STOP;
@@ -101,5 +102,16 @@ void ModuleInput::ControlCameraInputKeys()
 		yaw = -1;
 
 	App->camera->RotateCamera(pitch, yaw);
-	
+}
+
+void ModuleInput::ControlCameraEvents(SDL_Event & event)
+{
+	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
+
+	switch (event.type)
+	{
+	case SDL_MOUSEWHEEL:
+		App->camera->ZoomCamera(event.wheel.y > 0, shift);
+		break;
+	}
 }

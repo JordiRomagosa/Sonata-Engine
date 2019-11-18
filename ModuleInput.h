@@ -2,6 +2,7 @@
 #define __ModuleInput_H__
 
 #include "Module.h"
+#include "SDL/SDL.h"
 
 typedef unsigned __int8 Uint8;
 
@@ -17,6 +18,7 @@ public:
 	bool CleanUp();
 
 	void ControlCameraInputKeys();
+	void ControlCameraEvents(SDL_Event & event);
 
 private:
 	const Uint8 *keyboard = NULL;
