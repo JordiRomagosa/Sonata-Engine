@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleCamera.h"
+#include "ModuleModelLoader.h"
 
 
 ModuleInput::ModuleInput()
@@ -46,6 +47,11 @@ update_status ModuleInput::Update()
 		case SDL_WINDOWEVENT:
 			if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 				App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+			break;
+
+		case SDL_DROPFILE:
+			char * filePath = sdlEvent.drop.file;
+			DroppedFile(filePath);
 			break;
 		}
 		ControlCameraEvents(sdlEvent);
@@ -146,4 +152,9 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 		lastMouseY = currentMouseY;
 		break;
 	}
+}
+
+void ModuleInput::DroppedFile(char * path)
+{
+	App->modelLoader->loadModel(path);
 }

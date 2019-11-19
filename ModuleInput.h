@@ -19,6 +19,7 @@ public:
 
 	void ControlCameraInputKeys();
 	void ControlCameraEvents(SDL_Event & event);
+	void DroppedFile(char * path);
 
 private:
 	const Uint8 *keyboard = NULL;
