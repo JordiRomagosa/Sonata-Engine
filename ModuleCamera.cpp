@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
+#include "ModuleModelLoader.h"
 
 
 ModuleCamera::ModuleCamera()
@@ -139,11 +140,22 @@ void ModuleCamera::OrbitCamera(float yaw, float pitch)
 		frustum.pos = rot.Transform(frustum.pos - center) + center;
 	}
 
-	frustum.front = center - frustum.pos; frustum.front.Normalize();
+	LookAt(center);
+}
+
+void ModuleCamera::LookAt(float3 target)
+{
+	frustum.front = target - frustum.pos; frustum.front.Normalize();
 	float3x3 rot = float3x3::LookAt(frustum.front, frustum.front, frustum.up, float3::unitY);
 	frustum.front = rot.Transform(frustum.front).Normalized();
 	frustum.up = rot.Transform(frustum.up).Normalized();
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
 	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraRight.Normalize();
+}
+
+void ModuleCamera::FocusCameraOnModel()
+{
+	frustum.pos = App->modelLoader->GetFocusModelPoint();
+	LookAt(App->modelLoader->GetModelCenter());
 }

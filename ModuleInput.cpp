@@ -108,6 +108,9 @@ void ModuleInput::ControlCameraInputKeys()
 		yaw = -1;
 
 	App->camera->RotateCamera(pitch, yaw);
+
+	if (keyboard[SDL_SCANCODE_F])
+		App->camera->FocusCameraOnModel();
 }
 
 void ModuleInput::ControlCameraEvents(SDL_Event & event)

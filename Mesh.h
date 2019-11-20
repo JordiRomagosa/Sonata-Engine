@@ -18,8 +18,10 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+	AABB boundingBox;
+
 	/*  Functions  */
-	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
+	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, AABB boundingBox);
 	~Mesh();
 	void Draw(unsigned int program) const;
 

@@ -17,6 +17,9 @@ public:
 
 	void Draw(unsigned int program);
 	void loadModel(std::string path);
+	float3 GetFocusModelPoint();
+
+	float3 GetModelCenter();
 
 	bool isModelLoaded = false;
 

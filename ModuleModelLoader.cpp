@@ -47,7 +47,6 @@ void ModuleModelLoader::loadModel(const string path)
 	if (directory == "")
 		return;
 	processNode(scene->mRootNode, scene);
-	//computeModelBoundingBox();
 	isModelLoaded = true;
 
 }
@@ -76,6 +75,7 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
 	std::vector<Texture> textures;
+	AABB boundingBox;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -92,7 +92,6 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 		normals.y = mesh->mNormals[i].y;
 		normals.z = mesh->mNormals[i].z;
 		vertex.Normal = normals;
-
 
 		if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{
@@ -136,7 +135,13 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 	}
 
-	return Mesh(vertices, indices, textures);
+	if (mesh->mNumVertices > 0)
+	{
+		boundingBox.SetNegativeInfinity();
+		boundingBox.Enclose((float3*)mesh->mVertices, mesh->mNumVertices);
+	}
+	
+	return Mesh(vertices, indices, textures, boundingBox);
 }
 
 string ModuleModelLoader::computeDirectory(const string path)
@@ -174,4 +179,58 @@ void ModuleModelLoader::emptyScene()
 
 	meshes.clear();
 	//modelBox.clear();
+}
+
+float3 ModuleModelLoader::GetFocusModelPoint()
+{
+	if (isModelLoaded)
+	{
+		float3 minPoint = meshes[0]->boundingBox.minPoint;
+		float3 maxPoint = meshes[0]->boundingBox.maxPoint;
+	
+		for (int i = 1; i < meshes.size(); i++)
+		{
+			float3 newMinPoint = meshes[i]->boundingBox.minPoint;
+			float3 newMaxPoint = meshes[i]->boundingBox.maxPoint;
+			
+			minPoint = math::Min(minPoint, newMinPoint);
+			maxPoint = math::Max(maxPoint, newMaxPoint);
+		}
+
+		float3 distance = maxPoint.Sub(minPoint);
+		int maxIndex = distance.MaxElementIndex();
+		if (maxIndex == 0)
+			return float3(1.5 * distance.MaxElement(), (minPoint.y + maxPoint.y) / 2, (minPoint.z + maxPoint.z) / 2);
+		if (maxIndex == 1)
+			return float3((minPoint.x + maxPoint.x) / 2, 1.5 * distance.MaxElement(), (minPoint.z + maxPoint.z) / 2);
+		if (maxIndex == 2)
+			return float3((minPoint.x + maxPoint.x) / 2, (minPoint.y + maxPoint.y) / 2, 1.5 * distance.MaxElement());
+	}
+
+	return float3(0, 1, -1);
+}
+
+float3 ModuleModelLoader::GetModelCenter()
+{
+	if (isModelLoaded)
+	{
+		float3 minPoint = meshes[0]->boundingBox.minPoint;
+		float3 maxPoint = meshes[0]->boundingBox.maxPoint;
+
+		for (int i = 1; i < meshes.size(); i++)
+		{
+			float3 newMinPoint = meshes[i]->boundingBox.minPoint;
+			float3 newMaxPoint = meshes[i]->boundingBox.maxPoint;
+
+			minPoint = math::Min(minPoint, newMinPoint);
+			maxPoint = math::Max(maxPoint, newMaxPoint);
+		}
+
+		float3 center = maxPoint.Add(minPoint);
+		center = center.Div(2);
+
+		return center;
+	}
+
+	return float3(0, 0, 0);
 }
