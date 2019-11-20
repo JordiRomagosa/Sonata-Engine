@@ -145,8 +145,8 @@ void ModuleCamera::OrbitCamera(float yaw, float pitch)
 
 void ModuleCamera::LookAt(float3 target)
 {
-	frustum.front = target - frustum.pos; frustum.front.Normalize();
-	float3x3 rot = float3x3::LookAt(frustum.front, frustum.front, frustum.up, float3::unitY);
+	float3 newFront = target - frustum.pos; newFront.Normalize();
+	float3x3 rot = float3x3::LookAt(frustum.front, newFront, frustum.up, float3::unitY);
 	frustum.front = rot.Transform(frustum.front).Normalized();
 	frustum.up = rot.Transform(frustum.up).Normalized();
 
