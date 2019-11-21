@@ -111,7 +111,7 @@ void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
 
 void ModuleCamera::OrbitCamera(float yaw, float pitch)
 {
-	float3 center(0, 0, 0);
+	float3 center = App->modelLoader->GetModelCenter();
 
 
 	if (yaw != 0.0f)
