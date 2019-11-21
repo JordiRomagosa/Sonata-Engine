@@ -173,10 +173,15 @@ void ModuleCamera::ShowCameraProperties()
 {
 	ImGui::Text("Camera Position: x:%.2f y:%.2f z:%.2f", frustum.pos.x, frustum.pos.y, frustum.pos.z);
 	ImGui::Text("Camera Front: x:%.2f y:%.2f z:%.2f", frustum.front.x, frustum.front.y, frustum.front.z);
+	ImGui::Text("Camera Up: x:%.2f y:%.2f z:%.2f", frustum.up.x, frustum.up.y, frustum.up.z);
 
 	ImGui::Separator();
 	ImGui::SliderFloat("Vertical POV", &verticalFov, 0.01, math::pi - 0.01, "%.3f");
 	SetFov(verticalFov);
+	ImGui::SliderFloat("Near Plane", &frustum.nearPlaneDistance, 1, 100, "%.0f");
+	ImGui::SliderFloat("Far Plane", &frustum.farPlaneDistance, 10, 1000, "%.0f");
+	if (frustum.nearPlaneDistance > frustum.farPlaneDistance)
+		frustum.farPlaneDistance = frustum.nearPlaneDistance + 0.1;
 
 	ImGui::SliderFloat("Movement Speed", &cameraMovementSpeed, 0.01, 1, "%.2f");
 	ImGui::SliderFloat("Rotation Speed", &cameraRotationSpeed, 0.01, 1, "%.2f");
