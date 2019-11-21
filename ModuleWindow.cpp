@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 
+#include <IMGUI/imgui.h>
+
 ModuleWindow::ModuleWindow()
 {
 }
@@ -39,6 +41,10 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
+		fullscreen = FULLSCREEN;
+		resizable = RESIZABLE;
+		fullscreenDesktop = false;
+
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 		glcontext = SDL_GL_CreateContext(window);
 
@@ -72,5 +78,43 @@ bool ModuleWindow::CleanUp()
 	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
+}
+
+void ModuleWindow::SetFullScreen()
+{
+	if (fullscreenDesktop)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else if (fullscreen)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	else
+		SDL_SetWindowFullscreen(window, 0);
+}
+
+void ModuleWindow::SetResizable()
+{
+	if (resizable)
+		SDL_SetWindowResizable(window, SDL_TRUE);
+	else
+		SDL_SetWindowResizable(window, SDL_FALSE);
+}
+
+void ModuleWindow::ShowWindowProperties()
+{
+	int width, height;
+	SDL_GetWindowSize(window, &width, &height);
+
+	ImGui::Text("Width: %d", width);
+	ImGui::SameLine();
+	ImGui::Text("Height: %d", height);
+
+	ImGui::Separator();
+	if (ImGui::Checkbox("Fullscreen", &fullscreen))
+		SetFullScreen();
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Resizable", &resizable))
+		SetResizable();
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Fullscreen Desktop", &fullscreenDesktop))
+		SetFullScreen();
 }
 

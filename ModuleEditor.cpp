@@ -234,6 +234,10 @@ void ModuleEditor::ShowConfigurationWindow()
 	{
 		App->camera->ShowCameraProperties();
 	}
+	if (ImGui::CollapsingHeader("Window"))
+	{
+		App->window->ShowWindowProperties();
+	}
 	if (ImGui::CollapsingHeader("Hardware and Software"))
 	{
 		ImGui::Text("CPUs: %d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());

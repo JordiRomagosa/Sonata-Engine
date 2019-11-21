@@ -21,6 +21,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void SetFullScreen();
+	void SetResizable();
+	void ShowWindowProperties();
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
@@ -30,6 +34,9 @@ public:
 
 	//The OpenGL context associated with the window
 	SDL_GLContext glcontext = NULL;
+
+private:
+	bool fullscreen, resizable, fullscreenDesktop;
 };
 
 #endif __ModuleWindow_H__
