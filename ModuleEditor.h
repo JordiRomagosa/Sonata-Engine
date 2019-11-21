@@ -4,6 +4,10 @@
 #include "Module.h"
 #include "IMGUI/imgui.h"
 
+#include <vector>
+#include <chrono>
+#include <string>
+
 class ModuleEditor : public Module
 {
 public:
@@ -18,17 +22,24 @@ public:
 public:
 	ImGuiTextBuffer consoleBuffer;
 	bool editorIsEnabled = true;
-	bool showConsole = true;
+	bool showConsole = false;
+	bool showConfiguration = true;
+	bool showModelProperties = true;
 
 private:
 	ImGuiIO io;
+	std::string caps = "";
+	std::vector<float> fps_log;
+	std::chrono::steady_clock::time_point lastSecond;
 	bool showAbout = false;
 
 private:
-	update_status MainMenu();
+	update_status GeneralMenu();
 	void ViewMenu();
 	void ShowAboutWindow();
 	void ShowConsoleWindow();
+	void ShowConfigurationWindow();
+	void UpdateFrameBuffer();
 };
 
 #endif __ModuleEditor_H__

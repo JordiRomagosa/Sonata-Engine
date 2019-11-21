@@ -6,6 +6,8 @@
 #include <IMGUI/imgui_impl_sdl.h>
 #include <IMGUI/imgui_impl_opengl3.h>
 
+using namespace std;
+
 ModuleEditor::ModuleEditor()
 {
 }
@@ -43,7 +45,7 @@ bool ModuleEditor::Init()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->window->glcontext);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	/*caps = "";
+	caps = "";
 	if (SDL_Has3DNow())
 		caps += "3DNow, ";
 	if (SDL_HasAVX())
@@ -70,7 +72,7 @@ bool ModuleEditor::Init()
 
 	lastSecond = std::chrono::steady_clock::now();
 
-	fullscreen = FULLSCREEN;
+	/*fullscreen = FULLSCREEN;
 	resizable = RESIZABLE;
 
 	verticalPOV = math::pi / 4.0f;
@@ -91,7 +93,7 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	if (MainMenu() != UPDATE_CONTINUE)
+	if (GeneralMenu() != UPDATE_CONTINUE)
 		return UPDATE_STOP;
 	ViewMenu();
 
@@ -100,6 +102,10 @@ update_status ModuleEditor::Update()
 
 	if (showConsole)
 		ShowConsoleWindow();
+
+	UpdateFrameBuffer();
+	if (showConfiguration)
+		ShowConfigurationWindow();
 
 	return UPDATE_CONTINUE;
 }
@@ -114,10 +120,10 @@ update_status ModuleEditor::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::MainMenu()
+update_status ModuleEditor::GeneralMenu()
 {
 	ImGui::BeginMainMenuBar();
-	if (ImGui::BeginMenu("Menu"))
+	if (ImGui::BeginMenu("General"))
 	{
 		if (ImGui::MenuItem("About"))
 			showAbout = !showAbout;
@@ -152,6 +158,19 @@ void ModuleEditor::ViewMenu()
 		if (ImGui::MenuItem(labelText))
 			showConsole = !showConsole;
 
+		if (showConfiguration)
+			labelText = "Hide Configuration";
+		else
+			labelText = "Show Configuration";
+		if (ImGui::MenuItem(labelText))
+			showConfiguration = !showConfiguration;
+
+		if (showModelProperties)
+			labelText = "Hide Model Info";
+		else
+			labelText = "Show Model Info";
+		if (ImGui::MenuItem(labelText))
+			showModelProperties = !showModelProperties;
 
 		ImGui::EndMenu();
 	}
@@ -165,7 +184,7 @@ void ModuleEditor::ShowAboutWindow()
 	ImGui::Text("Sonata Engine");
 	ImGui::Text("Used for learning. Engine under construction.");
 	ImGui::Text("Author: Jordi Romagosa Mellado");
-	ImGui::Text("Libraries used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5");
+	ImGui::Text("Libraries used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5, Devil v1.8.0");
 
 	ImGui::Text("License:\n"
 		"\tMIT License - Copyright(c)2019 - Jordi Romagosa Mellado\n\n"
@@ -196,4 +215,43 @@ void ModuleEditor::ShowConsoleWindow()
 	ImGui::Begin("Console");
 	ImGui::TextUnformatted(consoleBuffer.begin());
 	ImGui::End();
+}
+
+void ModuleEditor::ShowConfigurationWindow()
+{
+	ImGui::Begin("Engine Configuration");
+	if (ImGui::CollapsingHeader("Framerate Graph"))
+	{
+		if (fps_log.size() > 0)
+		{
+			char title[25];
+			sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
+			ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 1500.0f, ImVec2(310, 100));
+			ImGui::SameLine();
+		}
+	}
+	if (ImGui::CollapsingHeader("Hardware and Software"))
+	{
+		ImGui::Text("CPUs: %d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+		ImGui::Text("System RAM: %dGB", SDL_GetSystemRAM() / 1000);
+		ImGui::Text("Caps: %s", &caps[0]);
+		ImGui::Text("Software used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5, Devil v1.8.0");
+		ImGui::Text("SDL Version: %s", glGetString(GL_VERSION));
+	}
+	ImGui::End();
+}
+
+void ModuleEditor::UpdateFrameBuffer()
+{
+	chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
+	float millis = (float)chrono::duration_cast<chrono::milliseconds>(currentTime - lastSecond).count();
+
+	if (millis > 1000)
+	{
+		if (fps_log.size() == 30)
+			fps_log.erase(fps_log.begin());
+		fps_log.push_back(ImGui::GetIO().Framerate);
+
+		lastSecond = currentTime;
+	}
 }
