@@ -25,6 +25,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void RequestBrowser(char * url);
+
 public:
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;

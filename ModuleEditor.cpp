@@ -91,16 +91,11 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	ImGui::BeginMainMenuBar();
-	if (ImGui::BeginMenu("Menu"))
-	{
-		if (ImGui::MenuItem("Quit"))
-			return UPDATE_STOP;
+	if (MainMenu() != UPDATE_CONTINUE)
+		return UPDATE_STOP;
 
-		ImGui::EndMenu();
-	}
-	ImGui::EndMainMenuBar();
-
+	if (showAbout)
+		ShowAboutTab();
 
 	return UPDATE_CONTINUE;
 }
@@ -113,4 +108,64 @@ update_status ModuleEditor::PostUpdate()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	return UPDATE_CONTINUE;
+}
+
+update_status ModuleEditor::MainMenu()
+{
+	ImGui::BeginMainMenuBar();
+	if (ImGui::BeginMenu("Menu"))
+	{
+		if (ImGui::MenuItem("About"))
+			showAbout = !showAbout;
+
+		if (ImGui::MenuItem("Github Link"))
+			App->RequestBrowser("https://github.com/JordiRomagosa/Sonata-Engine");
+
+		char * labelText = "Enable Editor";
+		if (editorIsEnabled)
+			labelText = "Disable Editor";
+		if (ImGui::MenuItem(labelText))
+			editorIsEnabled = !editorIsEnabled;
+
+		if (ImGui::MenuItem("Quit"))
+			return UPDATE_STOP;
+
+		ImGui::EndMenu();
+	}
+	ImGui::EndMainMenuBar();
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleEditor::ShowAboutTab()
+{
+	ImGui::Begin("About");
+
+	ImGui::Text("SAEGE: the Super Awersome and Experimental Game Engine");
+	ImGui::Text("Used for learning. This engine is under construction.");
+	ImGui::Text("Author: Jordi Romagosa Mellado");
+	ImGui::Text("Libraries used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5");
+
+	ImGui::Text("License:\n"
+		"\tMIT License - Copyright(c)2019 - Jordi Romagosa Mellado\n\n"
+
+		"\tPermission is hereby granted, free of charge, to any person obtaining a copy\n"
+		"\tof this software and associated documentation files(the \"Software\"), to deal\n"
+		"\tin the Software without restriction, including without limitation the rights\n"
+		"\tto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
+		"\tcopies of the Software, and to permit persons to whom the Software is\n"
+		"\tfurnished to do so, subject to the following conditions :\n\n"
+
+		"\tThe above copyright notice and this permission notice shall be included in all\n"
+		"\tcopies or substantial portions of the Software.\n\n"
+
+		"\tTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
+		"\tIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n"
+		"\tFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE\n"
+		"\tAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n"
+		"\tLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n"
+		"\tOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n"
+		"\tSOFTWARE.");
+
+	ImGui::End();
 }

@@ -70,4 +70,9 @@ bool Application::CleanUp()
 	return ret;
 }
 
+void Application::RequestBrowser(char * url)
+{
+	ShellExecute(0, 0, url, 0, 0, SW_SHOW);
+}
+
 #endif __Application_CPP__
