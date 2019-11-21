@@ -17,7 +17,7 @@ public:
 	void SetFov(float verticalFov);
 	void SetAspectRatio(float height, float width);
 	void TranslateCamera(float x, float y, float z, bool shift);
-	void RotateCamera(int pitch, int yaw);
+	void RotateCamera(float pitch, float yaw);
 	void ZoomCamera(bool zoomIn, bool shift);
 	void OrbitCamera(float x, float y);
 	void LookAt(float3 target);

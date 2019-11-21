@@ -54,7 +54,7 @@ update_status ModuleInput::Update()
 			DroppedFile(filePath);
 			break;
 		}
-		ControlCameraEvents(sdlEvent);
+		ControlMouseEvents(sdlEvent);
 	}
 
 	if (keyboard[SDL_SCANCODE_ESCAPE])
@@ -93,7 +93,8 @@ void ModuleInput::ControlCameraInputKeys()
 	else if (keyboard[SDL_SCANCODE_E] && !keyboard[SDL_SCANCODE_Q])
 		moveY = 1;
 
-	App->camera->TranslateCamera(moveX, moveY, moveZ, shift);
+	if (rightMousePressed)
+		App->camera->TranslateCamera(moveX, moveY, moveZ, shift);
 
 	//Rotate camera with arrows
 	int pitch = 0, yaw = 0;
@@ -113,7 +114,7 @@ void ModuleInput::ControlCameraInputKeys()
 		App->camera->FocusCameraOnModel();
 }
 
-void ModuleInput::ControlCameraEvents(SDL_Event & event)
+void ModuleInput::ControlMouseEvents(SDL_Event & event)
 {
 	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
 	bool alt = keyboard[SDL_SCANCODE_LALT] || keyboard[SDL_SCANCODE_RALT];
@@ -146,7 +147,7 @@ void ModuleInput::ControlCameraEvents(SDL_Event & event)
 		currentMouseY = event.button.y;
 
 		if (rightMousePressed)
-			App->camera->TranslateCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY, 0, shift);
+			App->camera->RotateCamera(lastMouseY - currentMouseY, currentMouseX - lastMouseX);
 
 		else if (leftMousePressed && alt)
 			App->camera->OrbitCamera(lastMouseX - currentMouseX, lastMouseY - currentMouseY);

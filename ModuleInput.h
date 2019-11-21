@@ -18,7 +18,7 @@ public:
 	bool CleanUp();
 
 	void ControlCameraInputKeys();
-	void ControlCameraEvents(SDL_Event & event);
+	void ControlMouseEvents(SDL_Event & event);
 	void DroppedFile(char * path);
 
 private:

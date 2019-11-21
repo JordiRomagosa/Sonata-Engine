@@ -69,19 +69,18 @@ void ModuleCamera::TranslateCamera(float x, float y, float z, bool shift)
 	if (y != 0)
 		frustum.pos -= y * float3(0, 1, 0) * cameraMovementSpeed * speedMult;
 	if (z != 0)
-		frustum.pos += z * cameraAdvance * cameraMovementSpeed * speedMult;
+		frustum.pos += z * frustum.front * cameraMovementSpeed * speedMult;
 }
 
-void ModuleCamera::RotateCamera(int pitch, int yaw)
+void ModuleCamera::RotateCamera(float pitch, float yaw)
 {
 	math::float3x3 rotationMatrix;
-	float angle = math::DegToRad(cameraRotationSpeed);
-	if (pitch > 0 || yaw > 0)
-		angle *= -1;
-
+	float anglePitch = math::DegToRad(-pitch * cameraRotationSpeed);
+	float angleYaw = math::DegToRad(-yaw * cameraRotationSpeed);
+	
 	if (yaw != 0)
 	{
-		rotationMatrix = math::float3x3::RotateY(angle);
+		rotationMatrix = math::float3x3::RotateY(angleYaw);
 
 		float3 mult = rotationMatrix * frustum.front;
 		frustum.front = mult;
@@ -94,7 +93,7 @@ void ModuleCamera::RotateCamera(int pitch, int yaw)
 		if ((currentPitch < 89 || pitch < 0) && (currentPitch > -89 || pitch > 0))
 		{
 			currentPitch += pitch * cameraRotationSpeed;
-			rotationMatrix = math::float3x3::RotateAxisAngle(cameraRight, angle);
+			rotationMatrix = math::float3x3::RotateAxisAngle(cameraRight, anglePitch);
 
 			float3 mult = rotationMatrix * frustum.front;
 			frustum.front = mult;
@@ -123,7 +122,6 @@ void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
 void ModuleCamera::OrbitCamera(float yaw, float pitch)
 {
 	float3 center = App->modelLoader->GetModelCenter();
-
 
 	if (yaw != 0.0f)
 	{
