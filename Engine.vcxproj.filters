@@ -122,6 +122,27 @@
     <ClCompile Include="ModuleTexture.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui_demo.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui_draw.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui_impl_opengl3.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui_impl_sdl.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\IMGUI\imgui_widgets.cpp">
+      <Filter>Lib\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -331,6 +352,33 @@
     <ClInclude Include="ModuleTexture.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imconfig.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imgui.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imgui_impl_opengl3.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imgui_impl_sdl.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imgui_internal.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imstb_rectpack.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imstb_textedit.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Include\IMGUI\imstb_truetype.h">
+      <Filter>Lib\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -344,6 +392,9 @@
     </Filter>
     <Filter Include="Lib\MathGeoLib">
       <UniqueIdentifier>{69c3aad7-ce67-4817-a103-af6f5d8f8a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\IMGUI">
+      <UniqueIdentifier>{a97551aa-f9f7-4648-af11-46836e596a9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

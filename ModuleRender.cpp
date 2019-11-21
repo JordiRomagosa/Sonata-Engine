@@ -32,6 +32,11 @@ bool ModuleRender::Init()
 		SDL_GL_SetSwapInterval(1);
 	
 	GLenum err = glewInit();
+	if (err)
+	{
+		LOG("Failed to initialize OpenGL loader!\n", SDL_GetError());
+		return false;
+	}
 	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 	LOG("Vendor: %s", glGetString(GL_VENDOR));
 	LOG("Renderer: %s", glGetString(GL_RENDERER));
