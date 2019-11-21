@@ -17,7 +17,7 @@ public:
 
 	void Draw(unsigned int program);
 	void loadModel(std::string path);
-	float3 GetFocusModelPoint();
+	AABB GetModelAABB();
 
 	float3 GetModelCenter();
 

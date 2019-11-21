@@ -131,9 +131,10 @@ void ModuleWindow::ShowWindowProperties()
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Resizable", &resizable))
 		SetResizable();
-	ImGui::SameLine();
+	
 	if (ImGui::Checkbox("Fullscreen Desktop", &fullscreenDesktop))
 		SetFullScreen();
+	ImGui::SameLine();
 	if (ImGui::Checkbox("Bordered", &bordered))
 		SetBordered();
 }

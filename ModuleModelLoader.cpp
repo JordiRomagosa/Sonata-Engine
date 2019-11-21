@@ -181,33 +181,20 @@ void ModuleModelLoader::emptyScene()
 	//modelBox.clear();
 }
 
-float3 ModuleModelLoader::GetFocusModelPoint()
+AABB ModuleModelLoader::GetModelAABB()
 {
+	AABB totalBoundingBox;
 	if (isModelLoaded)
 	{
-		float3 minPoint = meshes[0]->boundingBox.minPoint;
-		float3 maxPoint = meshes[0]->boundingBox.maxPoint;
-	
+		totalBoundingBox = meshes[0]->boundingBox;
+
 		for (int i = 1; i < meshes.size(); i++)
 		{
-			float3 newMinPoint = meshes[i]->boundingBox.minPoint;
-			float3 newMaxPoint = meshes[i]->boundingBox.maxPoint;
-			
-			minPoint = math::Min(minPoint, newMinPoint);
-			maxPoint = math::Max(maxPoint, newMaxPoint);
+			totalBoundingBox.Enclose(meshes[i]->boundingBox);
 		}
-
-		float3 distance = maxPoint.Sub(minPoint);
-		int maxIndex = distance.MaxElementIndex();
-		if (maxIndex == 0)
-			return float3(1.5 * distance.MaxElement(), (minPoint.y + maxPoint.y) / 2, (minPoint.z + maxPoint.z) / 2);
-		if (maxIndex == 1)
-			return float3((minPoint.x + maxPoint.x) / 2, 1.5 * distance.MaxElement(), (minPoint.z + maxPoint.z) / 2);
-		if (maxIndex == 2)
-			return float3((minPoint.x + maxPoint.x) / 2, (minPoint.y + maxPoint.y) / 2, 1.5 * distance.MaxElement());
 	}
 
-	return float3(0, 1, -1);
+	return totalBoundingBox;
 }
 
 float3 ModuleModelLoader::GetModelCenter()

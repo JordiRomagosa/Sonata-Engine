@@ -32,7 +32,6 @@ bool ModuleCamera::Init()
 	verticalFov = frustum.verticalFov;
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
-	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraAdvance.Normalize();
 	return true;
 }
 
@@ -103,7 +102,6 @@ void ModuleCamera::RotateCamera(float pitch, float yaw)
 	}
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
-	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraAdvance.Normalize();
 }
 
 void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
@@ -160,13 +158,15 @@ void ModuleCamera::LookAt(float3 target)
 	frustum.up = rot.Transform(frustum.up).Normalized();
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
-	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraRight.Normalize();
 }
 
 void ModuleCamera::FocusCameraOnModel()
 {
-	frustum.pos = App->modelLoader->GetFocusModelPoint();
-	LookAt(App->modelLoader->GetModelCenter());
+	float3 modelCenter = App->modelLoader->GetModelCenter();
+	LookAt(modelCenter);
+
+	float maxModelAxis = App->modelLoader->GetModelAABB().Size().MaxElement();
+	frustum.pos = modelCenter - frustum.front * (1.5 * maxModelAxis);
 }
 
 void ModuleCamera::ShowCameraProperties()
