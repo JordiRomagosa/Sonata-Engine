@@ -16,7 +16,9 @@ public:
 	update_status PostUpdate();
 
 public:
+	ImGuiTextBuffer consoleBuffer;
 	bool editorIsEnabled = true;
+	bool showConsole = true;
 
 private:
 	ImGuiIO io;
@@ -24,7 +26,9 @@ private:
 
 private:
 	update_status MainMenu();
-	void ShowAboutTab();
+	void ViewMenu();
+	void ShowAboutWindow();
+	void ShowConsoleWindow();
 };
 
 #endif __ModuleEditor_H__

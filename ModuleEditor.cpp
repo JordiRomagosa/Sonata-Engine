@@ -93,9 +93,13 @@ update_status ModuleEditor::Update()
 {
 	if (MainMenu() != UPDATE_CONTINUE)
 		return UPDATE_STOP;
+	ViewMenu();
 
 	if (showAbout)
-		ShowAboutTab();
+		ShowAboutWindow();
+
+	if (showConsole)
+		ShowConsoleWindow();
 
 	return UPDATE_CONTINUE;
 }
@@ -137,12 +141,29 @@ update_status ModuleEditor::MainMenu()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleEditor::ShowAboutTab()
+void ModuleEditor::ViewMenu()
+{
+	ImGui::BeginMainMenuBar();
+	if (ImGui::BeginMenu("View"))
+	{
+		char * labelText = "Show Console";
+		if (showConsole)
+			labelText = "Hide Console";
+		if (ImGui::MenuItem(labelText))
+			showConsole = !showConsole;
+
+
+		ImGui::EndMenu();
+	}
+	ImGui::EndMainMenuBar();
+}
+
+void ModuleEditor::ShowAboutWindow()
 {
 	ImGui::Begin("About");
 
-	ImGui::Text("SAEGE: the Super Awersome and Experimental Game Engine");
-	ImGui::Text("Used for learning. This engine is under construction.");
+	ImGui::Text("Sonata Engine");
+	ImGui::Text("Used for learning. Engine under construction.");
 	ImGui::Text("Author: Jordi Romagosa Mellado");
 	ImGui::Text("Libraries used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5");
 
@@ -167,5 +188,12 @@ void ModuleEditor::ShowAboutTab()
 		"\tOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n"
 		"\tSOFTWARE.");
 
+	ImGui::End();
+}
+
+void ModuleEditor::ShowConsoleWindow()
+{
+	ImGui::Begin("Console");
+	ImGui::TextUnformatted(consoleBuffer.begin());
 	ImGui::End();
 }
