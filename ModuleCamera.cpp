@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 #include "ModuleModelLoader.h"
 
+#include <IMGUI/imgui.h>
 
 ModuleCamera::ModuleCamera()
 {
@@ -28,6 +29,8 @@ bool ModuleCamera::Init()
 	frustum.verticalFov = math::pi / 4.0f;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 
+	verticalFov = frustum.verticalFov;
+
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
 	cameraAdvance = cameraRight.Cross(float3(0, 1, 0)); cameraAdvance.Normalize();
 	return true;
@@ -39,6 +42,14 @@ math::float4x4 ModuleCamera::GetViewMatrix() {
 
 math::float4x4 ModuleCamera::GetProjectionMatrix() {
 	return frustum.ProjectionMatrix();
+}
+
+void ModuleCamera::SetFov(float verticalFov)
+{
+	float aspect = frustum.AspectRatio();
+
+	frustum.verticalFov = verticalFov;
+	frustum.horizontalFov = frustum.verticalFov *aspect;
 }
 
 void ModuleCamera::SetAspectRatio(float height, float width)
@@ -158,4 +169,18 @@ void ModuleCamera::FocusCameraOnModel()
 {
 	frustum.pos = App->modelLoader->GetFocusModelPoint();
 	LookAt(App->modelLoader->GetModelCenter());
+}
+
+void ModuleCamera::ShowCameraProperties()
+{
+	ImGui::Text("Camera Position: x:%.2f y:%.2f z:%.2f", frustum.pos.x, frustum.pos.y, frustum.pos.z);
+	ImGui::Text("Camera Front: x:%.2f y:%.2f z:%.2f", frustum.front.x, frustum.front.y, frustum.front.z);
+
+	ImGui::Separator();
+	ImGui::SliderFloat("Vertical POV", &verticalFov, 0.01, math::pi - 0.01, "%.3f");
+	SetFov(verticalFov);
+
+	ImGui::SliderFloat("Movement Speed", &cameraMovementSpeed, 0.01, 1, "%.2f");
+	ImGui::SliderFloat("Rotation Speed", &cameraRotationSpeed, 0.01, 1, "%.2f");
+	ImGui::SliderFloat("Shift Speed Modifier", &shiftSpeedMultiplier, 1, 5, "%.1f");
 }

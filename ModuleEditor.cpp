@@ -1,6 +1,7 @@
 #include "ModuleEditor.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 
 #include <GL/glew.h>
 #include <IMGUI/imgui_impl_sdl.h>
@@ -227,8 +228,11 @@ void ModuleEditor::ShowConfigurationWindow()
 			char title[25];
 			sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
 			ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 1500.0f, ImVec2(310, 100));
-			ImGui::SameLine();
 		}
+	}
+	if (ImGui::CollapsingHeader("Camera"))
+	{
+		App->camera->ShowCameraProperties();
 	}
 	if (ImGui::CollapsingHeader("Hardware and Software"))
 	{
