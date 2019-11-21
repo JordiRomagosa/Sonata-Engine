@@ -23,6 +23,8 @@ public:
 
 	void SetFullScreen();
 	void SetResizable();
+	void SetBordered();
+	void SetBrightness();
 	void ShowWindowProperties();
 
 public:
@@ -36,7 +38,8 @@ public:
 	SDL_GLContext glcontext = NULL;
 
 private:
-	bool fullscreen, resizable, fullscreenDesktop;
+	bool fullscreen, resizable, fullscreenDesktop, bordered;
+	float brightness = 1.0f;
 };
 
 #endif __ModuleWindow_H__

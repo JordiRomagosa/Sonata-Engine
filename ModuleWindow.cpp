@@ -44,6 +44,7 @@ bool ModuleWindow::Init()
 		fullscreen = FULLSCREEN;
 		resizable = RESIZABLE;
 		fullscreenDesktop = false;
+		bordered = true;
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 		glcontext = SDL_GL_CreateContext(window);
@@ -98,14 +99,31 @@ void ModuleWindow::SetResizable()
 		SDL_SetWindowResizable(window, SDL_FALSE);
 }
 
+void ModuleWindow::SetBordered()
+{
+	if (bordered)
+		SDL_SetWindowBordered(window, SDL_TRUE);
+	else
+		SDL_SetWindowBordered(window, SDL_FALSE);
+}
+
+void ModuleWindow::SetBrightness()
+{
+	SDL_SetWindowBrightness(window, brightness);
+	LOG("Set brightness");
+}
+
 void ModuleWindow::ShowWindowProperties()
 {
 	int width, height;
 	SDL_GetWindowSize(window, &width, &height);
+	if (ImGui::SliderInt("Width", &width, 100, 1000, "%d"))
+		SDL_SetWindowSize(window, width, height);
+	if (ImGui::SliderInt("Height", &height, 100, 800, "%d"))
+		SDL_SetWindowSize(window, width, height);
 
-	ImGui::Text("Width: %d", width);
-	ImGui::SameLine();
-	ImGui::Text("Height: %d", height);
+	if (ImGui::SliderFloat("Brightness", &brightness, 0.0, 1.0, "%.2f"))
+		SetBrightness();
 
 	ImGui::Separator();
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
@@ -116,5 +134,7 @@ void ModuleWindow::ShowWindowProperties()
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Fullscreen Desktop", &fullscreenDesktop))
 		SetFullScreen();
+	if (ImGui::Checkbox("Bordered", &bordered))
+		SetBordered();
 }
 
