@@ -42,7 +42,7 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	LOG("Loading texture %s . \n", filepath);
+	LOG("Loading texture %s.\n", filepath.c_str());
 
 	//Loading image
 	ILuint image;
@@ -63,8 +63,9 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 		//Fill texture
 		texture.width = ilGetInteger(IL_IMAGE_WIDTH);
 		texture.height = ilGetInteger(IL_IMAGE_HEIGHT);
-		texture.format = ilDetermineType(path);;
+		texture.format = ilDetermineType(path);
 		texture.data = data;
+		texture.path = filepath.c_str();
 
 		//Binding texture and generating mipmaps
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -97,6 +98,8 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 
 vector<Texture> ModuleTexture::loadMaterialTextures(aiMaterial * mat, aiTextureType type, string typeName, string directory)
 {
+	textures_loaded.clear();
+
 	std::vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
@@ -120,7 +123,6 @@ vector<Texture> ModuleTexture::loadMaterialTextures(aiMaterial * mat, aiTextureT
 			Texture texture;
 			LoadTextureForModels(str.C_Str(), directory, texture);
 			texture.type = typeName;
-			texture.path = str.C_Str();
 			textures.push_back(texture);
 			textures_loaded.push_back(texture); //adding new texture to texture loaded
 		}

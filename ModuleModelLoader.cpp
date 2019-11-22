@@ -278,6 +278,34 @@ void ModuleModelLoader::ShowModelProperties()
 	
 	if (ImGui::CollapsingHeader("Texture"))
 	{
+		vector<Texture> textures;
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			for (int c = 0; c < meshes[i]->textures.size(); c++)
+			{
+				if (textures.size() == 0)
+					textures.push_back(meshes[i]->textures[c]);
+				else
+					for (vector<Texture>::iterator it = textures.begin(); it != textures.end(); ++it)
+						if (it->path != meshes[i]->textures[c].path)
+						{
+							textures.push_back(meshes[i]->textures[c]);
+							break;
+						}
+							
+			}
+		}
+		ImGui::Text("Textures loaded: %d", textures.size());
 
+		for (vector<Texture>::iterator it = textures.begin(); it != textures.end(); ++it)
+		{
+			ImGui::Separator();
+			ImGui::Text("Texture Path: %s", it->path.c_str());
+			ImGui::Text("Texture Size: %dx%d px", it->width, it->height);
+			ImGui::Text("Texture Type: %s", it->type.c_str());
+
+			float proportion = it->width / it->height;
+			ImGui::Image((void*)(intptr_t)it->id, ImVec2(200, 200 * proportion), ImVec2(0,1), ImVec2(1,0));
+		}
 	}
 }
