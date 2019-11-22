@@ -21,6 +21,8 @@ public:
 	void ControlMouseEvents(SDL_Event & event);
 	void DroppedFile(char * path);
 
+	void ShowInputProperties();
+
 private:
 	const Uint8 *keyboard = NULL;
 	float lastMouseX = -1, lastMouseY = -1;

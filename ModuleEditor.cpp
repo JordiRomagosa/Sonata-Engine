@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
+#include "ModuleInput.h"
 
 #include <GL/glew.h>
 #include <IMGUI/imgui_impl_sdl.h>
@@ -231,13 +232,14 @@ void ModuleEditor::ShowConfigurationWindow()
 		}
 	}
 	if (ImGui::CollapsingHeader("Camera"))
-	{
 		App->camera->ShowCameraProperties();
-	}
+
 	if (ImGui::CollapsingHeader("Window"))
-	{
 		App->window->ShowWindowProperties();
-	}
+
+	if (ImGui::CollapsingHeader("Inputs"))
+		App->input->ShowInputProperties();
+
 	if (ImGui::CollapsingHeader("Hardware and Software"))
 	{
 		ImGui::Text("CPUs: %d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());

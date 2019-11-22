@@ -5,6 +5,10 @@
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 
+#include <IMGUI/imgui.h>
+#include <string>
+
+using namespace std;
 
 ModuleInput::ModuleInput()
 {}
@@ -161,4 +165,39 @@ void ModuleInput::ControlMouseEvents(SDL_Event & event)
 void ModuleInput::DroppedFile(char * path)
 {
 	App->modelLoader->loadModel(path);
+}
+
+void ModuleInput::ShowInputProperties()
+{
+	ImGui::Text("Mouse Position: x:%.2f y:%.2f", currentMouseX, currentMouseY);
+
+	string showText = leftMousePressed ? "True" : "False";
+	ImGui::Text("Mouse Left: %s", showText.c_str());
+	showText = rightMousePressed ? "True" : "False";
+	ImGui::Text("Mouse Right: %s", showText.c_str());
+
+	showText = "";
+	if (keyboard[SDL_SCANCODE_UP]) showText += "Up, ";
+	if (keyboard[SDL_SCANCODE_DOWN]) showText += "Down, ";
+	if (keyboard[SDL_SCANCODE_LEFT]) showText += "Left, ";
+	if (keyboard[SDL_SCANCODE_RIGHT]) showText += "Right, ";
+
+	if (keyboard[SDL_SCANCODE_W]) showText += "W, ";
+	if (keyboard[SDL_SCANCODE_S]) showText += "S, ";
+	if (keyboard[SDL_SCANCODE_A]) showText += "A, ";
+	if (keyboard[SDL_SCANCODE_D]) showText += "D, ";
+	if (keyboard[SDL_SCANCODE_Q]) showText += "Q, ";
+	if (keyboard[SDL_SCANCODE_E]) showText += "E, ";
+
+	if (keyboard[SDL_SCANCODE_LSHIFT]) showText += "LShift, ";
+	if (keyboard[SDL_SCANCODE_RSHIFT]) showText += "RShift, ";
+	if (keyboard[SDL_SCANCODE_LALT]) showText += "LAlt, ";
+	if (keyboard[SDL_SCANCODE_RALT]) showText += "RAlt, ";
+
+	if (keyboard[SDL_SCANCODE_F]) showText += "F, ";
+
+	if (showText.size() > 0)
+		showText = showText.substr(0, showText.size()-2);
+
+	ImGui::Text("Keys Pressed: %s", showText.c_str());
 }
