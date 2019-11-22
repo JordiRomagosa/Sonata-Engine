@@ -21,7 +21,7 @@ bool ModuleCamera::Init()
 	float aspect = float(w) / float(h);
 
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3(0, 1, -2);
+	frustum.pos = float3(0, 3, -2);
 	frustum.front = float3::unitZ;
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;

@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleModelLoader.h"
 
 #include <GL/glew.h>
 #include <IMGUI/imgui_impl_sdl.h>
@@ -108,6 +109,9 @@ update_status ModuleEditor::Update()
 	UpdateFrameBuffer();
 	if (showConfiguration)
 		ShowConfigurationWindow();
+
+	if (showModelProperties)
+		ShowModelPropertiesWindow();
 
 	return UPDATE_CONTINUE;
 }
@@ -248,6 +252,13 @@ void ModuleEditor::ShowConfigurationWindow()
 		ImGui::Text("Software used: Glew 2.1.0, SDL v2.0.10, IMGUI v1.73, MathGeoLib v1.5, Devil v1.8.0");
 		ImGui::Text("SDL Version: %s", glGetString(GL_VERSION));
 	}
+	ImGui::End();
+}
+
+void ModuleEditor::ShowModelPropertiesWindow()
+{
+	ImGui::Begin("Model Properties");
+	App->modelLoader->ShowModelProperties();
 	ImGui::End();
 }
 

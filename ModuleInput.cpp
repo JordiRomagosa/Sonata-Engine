@@ -164,7 +164,14 @@ void ModuleInput::ControlMouseEvents(SDL_Event & event)
 
 void ModuleInput::DroppedFile(char * path)
 {
-	App->modelLoader->loadModel(path);
+	string sPath = path;
+	size_t pos = sPath.find_last_of('.');
+	string extension = sPath.substr(pos, string::npos);
+
+	if (extension == ".fbx")
+		App->modelLoader->loadModel(path);
+	else
+		App->modelLoader->loadTexture(path);
 }
 
 void ModuleInput::ShowInputProperties()

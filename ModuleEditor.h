@@ -39,6 +39,7 @@ private:
 	void ShowAboutWindow();
 	void ShowConsoleWindow();
 	void ShowConfigurationWindow();
+	void ShowModelPropertiesWindow();
 	void UpdateFrameBuffer();
 };
 

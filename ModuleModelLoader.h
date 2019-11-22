@@ -7,6 +7,8 @@
 #include <vector>
 #include <Assimp/scene.h>
 
+class float4x4;
+
 class ModuleModelLoader : public Module
 {
 public:
@@ -17,11 +19,14 @@ public:
 
 	void Draw(unsigned int program);
 	void loadModel(std::string path);
+	void loadTexture(std::string path);
 	AABB GetModelAABB();
 
 	float3 GetModelCenter();
-
+	void ShowModelProperties();
+	 
 	bool isModelLoaded = false;
+	math::float4x4 model = math::float4x4::FromTRS(float3(0, 0, 0), math::float3x3::RotateX(0.0f) * math::float3x3::RotateY(0.0f), math::float3(1.0f, 1.0f, 1.0f));
 
 private:
 

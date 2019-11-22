@@ -2,9 +2,12 @@
 #include "Application.h"
 #include "ModuleModelLoader.h"
 #include "ModuleTexture.h"
+#include "ModuleCamera.h"
 
 #include <Assimp/cimport.h>
 #include <Assimp/postprocess.h>
+#include <MathGeoLib/MathGeoLib.h>
+#include <IMGUI/imgui.h>
 
 using namespace std;
 
@@ -48,6 +51,29 @@ void ModuleModelLoader::loadModel(const string path)
 		return;
 	processNode(scene->mRootNode, scene);
 	isModelLoaded = true;
+
+	App->camera->FocusCameraOnModel();
+}
+
+void ModuleModelLoader::loadTexture(const string path)
+{
+	//if (!isModelLoaded)
+	//	return;
+
+	//LOG("Importing texture \n");
+	//const aiScene* scene = aiImportFile(path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
+	//if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	//{
+	//	LOG("ERROR ASSIMP: %s \n", aiGetErrorString());
+	//	return;
+	//}
+
+	//directory = computeDirectory(path);
+
+	//if (directory == "")
+	//	return;
+	//processNode(scene->mRootNode, scene);
+	//isModelLoaded = true;
 
 }
 
@@ -220,4 +246,38 @@ float3 ModuleModelLoader::GetModelCenter()
 	}
 
 	return float3(0, 0, 0);
+}
+
+void ModuleModelLoader::ShowModelProperties()
+{
+	if (ImGui::CollapsingHeader("Transformation")) //mockup, since model matrix can't change
+	{
+		ImGui::Text("Model Translation: x:%.3f y:%.3f z:%.3f", 0, 0, 0);
+		ImGui::Text("Model Rotation: x:%.3f y:%.3f z:%.3f", 0, 0, 0);
+		ImGui::Text("Model Scale: x:%.3f y:%.3f z:%.3f", 1, 1, 1);
+	}
+	
+	if (ImGui::CollapsingHeader("Geometry"))
+	{
+		ImGui::Text("Number Meshes: %d", meshes.size());
+
+		int triCount = 0;
+
+		if (meshes.size() > 0)
+			for (int i = 0; i < meshes.size(); i++)
+				triCount += meshes[i]->indices.size();
+		ImGui::Text("Number Triangles: %d", triCount);
+
+		int verCount = 0;
+
+		if (meshes.size() > 0)
+			for (int i = 0; i < meshes.size(); i++)
+				verCount += meshes[i]->vertices.size();
+		ImGui::Text("Number Vertices: %d", verCount);
+	}
+	
+	if (ImGui::CollapsingHeader("Texture"))
+	{
+
+	}
 }

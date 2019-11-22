@@ -70,7 +70,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	math::float4x4 model = math::float4x4::FromTRS(float3(0, 0, 0), math::float3x3::RotateX(0.0f) * math::float3x3::RotateY(0.0f), math::float3(1.0f, 1.0f, 1.0f));
+	math::float4x4 model = App->modelLoader->model;
 	math::float4x4 view = App->camera->GetViewMatrix();
 	math::float4x4 proj = App->camera->GetProjectionMatrix();
 
