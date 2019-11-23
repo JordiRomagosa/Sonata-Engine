@@ -73,18 +73,13 @@ void ModuleCamera::TranslateCamera(float x, float y, float z, bool shift)
 
 void ModuleCamera::RotateCamera(float pitch, float yaw)
 {
-	math::float3x3 rotationMatrix;
+	math::float3x3 rotationMatrix = math::float3x3::identity;
 	float anglePitch = math::DegToRad(-pitch * cameraRotationSpeed);
 	float angleYaw = math::DegToRad(-yaw * cameraRotationSpeed);
 	
 	if (yaw != 0)
 	{
-		rotationMatrix = math::float3x3::RotateY(angleYaw);
-
-		float3 mult = rotationMatrix * frustum.front;
-		frustum.front = mult;
-		mult = rotationMatrix * frustum.up;
-		frustum.up = mult;
+		rotationMatrix = rotationMatrix * math::float3x3::RotateY(angleYaw);
 	}
 
 	if (pitch != 0)
@@ -92,14 +87,14 @@ void ModuleCamera::RotateCamera(float pitch, float yaw)
 		if ((currentPitch < 89 || pitch < 0) && (currentPitch > -89 || pitch > 0))
 		{
 			currentPitch += pitch * cameraRotationSpeed;
-			rotationMatrix = math::float3x3::RotateAxisAngle(cameraRight, anglePitch);
-
-			float3 mult = rotationMatrix * frustum.front;
-			frustum.front = mult;
-			mult = rotationMatrix * frustum.up;
-			frustum.up = mult;
+			rotationMatrix = rotationMatrix * math::float3x3::RotateAxisAngle(cameraRight, anglePitch);
 		}
 	}
+
+	float3 mult = rotationMatrix * frustum.front;
+	frustum.front = mult;
+	mult = rotationMatrix * frustum.up;
+	frustum.up = mult;
 
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
 }
