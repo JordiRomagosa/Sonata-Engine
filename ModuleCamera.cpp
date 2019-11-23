@@ -171,8 +171,8 @@ void ModuleCamera::ShowCameraProperties()
 	ImGui::Text("Camera Up: x:%.2f y:%.2f z:%.2f", frustum.up.x, frustum.up.y, frustum.up.z);
 
 	ImGui::Separator();
-	ImGui::SliderFloat("Vertical POV", &verticalFov, 0.01, math::pi - 0.01, "%.3f");
-	SetFov(verticalFov);
+	if (ImGui::SliderFloat("Vertical FOV", &verticalFov, 0.01, math::pi - 0.01, "%.3f"))
+		SetFov(verticalFov);
 	ImGui::SliderFloat("Near Plane", &frustum.nearPlaneDistance, 1, 100, "%.0f");
 	ImGui::SliderFloat("Far Plane", &frustum.farPlaneDistance, 10, 1000, "%.0f");
 	if (frustum.nearPlaneDistance > frustum.farPlaneDistance)
