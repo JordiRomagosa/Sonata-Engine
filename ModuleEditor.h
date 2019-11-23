@@ -24,7 +24,7 @@ public:
 	bool editorIsEnabled = true;
 	bool showConsole = false;
 	bool showConfiguration = true;
-	bool showModelProperties = true;
+	bool showModelProperties = false;
 
 private:
 	ImGuiIO io;

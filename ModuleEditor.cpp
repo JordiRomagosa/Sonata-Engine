@@ -4,6 +4,7 @@
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleModelLoader.h"
+#include "ModuleRender.h"
 
 #include <GL/glew.h>
 #include <IMGUI/imgui_impl_sdl.h>
@@ -100,18 +101,22 @@ update_status ModuleEditor::Update()
 		return UPDATE_STOP;
 	ViewMenu();
 
-	if (showAbout)
-		ShowAboutWindow();
+	if (editorIsEnabled)
+	{
+		if (showAbout)
+			ShowAboutWindow();
 
-	if (showConsole)
-		ShowConsoleWindow();
+		if (showConsole)
+			ShowConsoleWindow();
+
+		if (showConfiguration)
+			ShowConfigurationWindow();
+
+		if (showModelProperties)
+			ShowModelPropertiesWindow();
+	}
 
 	UpdateFrameBuffer();
-	if (showConfiguration)
-		ShowConfigurationWindow();
-
-	if (showModelProperties)
-		ShowModelPropertiesWindow();
 
 	return UPDATE_CONTINUE;
 }
@@ -243,6 +248,9 @@ void ModuleEditor::ShowConfigurationWindow()
 
 	if (ImGui::CollapsingHeader("Inputs"))
 		App->input->ShowInputProperties();
+
+	if (ImGui::CollapsingHeader("Render"))
+		App->renderer->ShowRenderProperties();
 
 	if (ImGui::CollapsingHeader("Hardware and Software"))
 	{

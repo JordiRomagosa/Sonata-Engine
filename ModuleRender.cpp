@@ -6,7 +6,9 @@
 #include "ModuleProgram.h"
 #include "ModuleModelLoader.h"
 #include "SDL/SDL.h"
+
 #include <GL/glew.h>
+#include <IMGUI/imgui.h>
 
 ModuleRender::ModuleRender()
 {
@@ -74,19 +76,23 @@ update_status ModuleRender::Update()
 	math::float4x4 view = App->camera->GetViewMatrix();
 	math::float4x4 proj = App->camera->GetProjectionMatrix();
 
-	RenderGrid(model, view, proj);
+	if (showGrid)
+		RenderGrid(model, view, proj);
 
-	glUseProgram(App->program->modelProgram);
+	if (showModel)
+	{
+		glUseProgram(App->program->modelProgram);
 
-	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
-		"model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
-		"view"), 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
-		"proj"), 1, GL_TRUE, &proj[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+			"model"), 1, GL_TRUE, &model[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+			"view"), 1, GL_TRUE, &view[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->program->modelProgram,
+			"proj"), 1, GL_TRUE, &proj[0][0]);
 
-	App->modelLoader->Draw(App->program->gridProgram);
-	glUseProgram(0);
+		App->modelLoader->Draw(App->program->gridProgram);
+		glUseProgram(0);
+	}
 	
 	return UPDATE_CONTINUE;
 }
@@ -160,4 +166,11 @@ void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, mat
 	glLineWidth(1.0f);
 
 	glUseProgram(0);
+}
+
+void ModuleRender::ShowRenderProperties()
+{
+	if (ImGui::Checkbox("Show Grid", &showGrid)) {}
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Show Model", &showModel)) {}
 }

@@ -248,9 +248,9 @@ void ModuleModelLoader::ShowModelProperties()
 {
 	if (ImGui::CollapsingHeader("Transformation")) //mockup, since model matrix can't change
 	{
-		ImGui::Text("Model Translation: x:%.3f y:%.3f z:%.3f", 0, 0, 0);
-		ImGui::Text("Model Rotation: x:%.3f y:%.3f z:%.3f", 0, 0, 0);
-		ImGui::Text("Model Scale: x:%.3f y:%.3f z:%.3f", 1, 1, 1);
+		ImGui::Text("Model Translation: x:%.3f y:%.3f z:%.3f", 0.0, 0.0, 0.0);
+		ImGui::Text("Model Rotation: x:%.3f y:%.3f z:%.3f", 0.0, 0.0, 0.0);
+		ImGui::Text("Model Scale: x:%.3f y:%.3f z:%.3f", 1.0, 1.0, 1.0);
 	}
 	
 	if (ImGui::CollapsingHeader("Geometry"))

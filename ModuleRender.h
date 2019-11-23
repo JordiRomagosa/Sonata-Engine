@@ -22,10 +22,15 @@ public:
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 
+	void ShowRenderProperties();
+
 private:
 	void* context;
 	int windowWidth = 0;
 	int windowHeight = 0;
+
+	bool showGrid = true;
+	bool showModel = true;
 
 	void RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj);
 };
