@@ -57,24 +57,20 @@ void ModuleModelLoader::loadModel(const string path)
 
 void ModuleModelLoader::loadTexture(const string path)
 {
-	//if (!isModelLoaded)
-	//	return;
+	if (!isModelLoaded)
+		return;
 
 	//LOG("Importing texture \n");
-	//const aiScene* scene = aiImportFile(path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
-	//if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-	//{
-	//	LOG("ERROR ASSIMP: %s \n", aiGetErrorString());
-	//	return;
-	//}
 
-	//directory = computeDirectory(path);
-
-	//if (directory == "")
-	//	return;
-	//processNode(scene->mRootNode, scene);
-	//isModelLoaded = true;
-
+	Texture texture;
+	directory = "";
+	
+	App->texture->LoadTextureForModels(path.c_str(), directory, texture);
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i]->textures.clear();
+		meshes[i]->textures.push_back(texture);
+	}
 }
 
 void ModuleModelLoader::processNode(aiNode * node, const aiScene * scene)
