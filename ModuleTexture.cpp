@@ -42,13 +42,36 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	LOG("Loading texture %s.\n", filepath.c_str());
+	LOG("Trying to load texture as specified in fbx file: %s.\n", filepath.c_str());
 
 	//Loading image
 	ILuint image;
 	ilGenImages(1, &image);
 	ilBindImage(image);
-	ilLoadImage(filepath.c_str());
+	bool imageLoaded = ilLoadImage(filepath.c_str());
+	
+	if (!imageLoaded)
+	{
+		size_t lastSlash = filepath.find_last_of('\\');
+		filepath = directory + filepath.substr(lastSlash, string::npos);
+		LOG("Trying to load texture from same directory as fbx: %s.\n", filepath.c_str());
+		imageLoaded = ilLoadImage(filepath.c_str());
+	}
+
+	if (!imageLoaded)
+	{
+		filepath = "../Textures/";
+		filepath.append(path);
+		LOG("Trying to load texture from Textures folder: %s.\n", filepath.c_str());
+		imageLoaded = ilLoadImage(filepath.c_str());
+	}
+
+	if (!imageLoaded)
+	{
+		LOG("Cannot find texture.");
+		return;
+	}
+
 	ILinfo ImageInfo;
 	iluGetImageInfo(&ImageInfo);
 	if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
