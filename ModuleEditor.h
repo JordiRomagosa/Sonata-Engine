@@ -23,7 +23,7 @@ public:
 	ImGuiTextBuffer consoleBuffer;
 	bool editorIsEnabled = true;
 	bool showConsole = false;
-	bool showConfiguration = true;
+	bool showConfiguration = false;
 	bool showModelProperties = false;
 
 private:

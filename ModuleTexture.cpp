@@ -1,7 +1,9 @@
 #include "ModuleTexture.h"
+
 #include <GL/glew.h>
 #include <IL/il.h>
 #include <IL/ilut.h>
+#include <IMGUI/imgui.h>
 
 using namespace std;
 
@@ -153,4 +155,9 @@ vector<Texture> ModuleTexture::loadMaterialTextures(aiMaterial * mat, aiTextureT
 
 	}
 	return textures;
+}
+
+void ModuleTexture::ShowTextureProperties()
+{
+	ImGui::Text("Placeholder. No options for Textures are enabled.");
 }

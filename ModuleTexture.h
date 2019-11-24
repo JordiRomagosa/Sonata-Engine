@@ -31,6 +31,8 @@ public:
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
 		std::string typeName, const std::string directory);
 
+	void ShowTextureProperties();
+
 	std::vector<Texture> textures_loaded;
 };
 

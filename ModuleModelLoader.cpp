@@ -22,7 +22,8 @@ ModuleModelLoader::~ModuleModelLoader()
 }
 
 bool ModuleModelLoader::Init()
-{	
+{
+	loadModel("./BakerHouse.fbx");
 	return true;
 }
 
@@ -268,7 +269,8 @@ void ModuleModelLoader::ShowModelProperties()
 		if (meshes.size() > 0)
 			for (int i = 0; i < meshes.size(); i++)
 				triCount += meshes[i]->indices.size();
-		ImGui::Text("Number Triangles: %d", triCount);
+		ImGui::Text("Number Triangles: %d", triCount/3);
+		ImGui::Text("Number Indexes: %d", triCount);
 
 		int verCount = 0;
 

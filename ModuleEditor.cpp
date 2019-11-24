@@ -251,6 +251,9 @@ void ModuleEditor::ShowConfigurationWindow()
 
 	if (ImGui::CollapsingHeader("Render"))
 		App->renderer->ShowRenderProperties();
+	
+	if (ImGui::CollapsingHeader("Textures"))
+		App->texture->ShowTextureProperties();
 
 	if (ImGui::CollapsingHeader("Hardware and Software"))
 	{
