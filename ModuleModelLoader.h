@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <Assimp/scene.h>
+#include <Assimp/LogStream.hpp>
 
 class float4x4;
 
@@ -40,6 +41,22 @@ private:
 	std::string computeDirectory(const std::string path);
 	void emptyScene();
 
+};
+
+class AssimpLog : public Assimp::LogStream
+{
+public:
+	void write(const char* message)
+	{
+		std::string str = message;
+		std::size_t characterError = str.find_first_of("%\\");
+		while (characterError != std::string::npos)
+		{
+			str[characterError] = '%\\';
+			characterError = str.find_first_of("%\\", characterError + 1);
+		}
+		LOG(str.c_str());
+	}
 };
 
 #endif __ModuleModelLoader_H__

@@ -8,6 +8,8 @@
 #include <Assimp/postprocess.h>
 #include <MathGeoLib/MathGeoLib.h>
 #include <IMGUI/imgui.h>
+#include <Assimp/Logger.hpp>
+#include <Assimp/DefaultLogger.hpp>
 
 using namespace std;
 
@@ -20,9 +22,7 @@ ModuleModelLoader::~ModuleModelLoader()
 }
 
 bool ModuleModelLoader::Init()
-{
-	loadModel("../Game/BakerHouse.fbx");
-	
+{	
 	return true;
 }
 
@@ -38,6 +38,11 @@ void ModuleModelLoader::loadModel(const string path)
 		emptyScene();
 
 	LOG("Importing model \n");
+
+	const unsigned int severity = Assimp::Logger::Debugging | Assimp::Logger::Info | Assimp::Logger::Err | Assimp::Logger::Warn;
+	Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
+	Assimp::DefaultLogger::get()->attachStream(new AssimpLog(), severity);
+
 	const aiScene* scene = aiImportFile(path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -51,6 +56,8 @@ void ModuleModelLoader::loadModel(const string path)
 		return;
 	processNode(scene->mRootNode, scene);
 	isModelLoaded = true;
+
+	Assimp::DefaultLogger::kill();
 
 	App->camera->FocusCameraOnModel();
 }
@@ -76,17 +83,16 @@ void ModuleModelLoader::loadTexture(const string path)
 void ModuleModelLoader::processNode(aiNode * node, const aiScene * scene)
 {
 	LOG("For each mesh located on the current node, processing meshes.")
-		// process all the node's meshes (if any)
-		for (unsigned int i = 0; i < node->mNumMeshes; i++)
-		{
-			LOG("Processing mesh");
-			aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-			meshes.push_back(new Mesh(processMesh(mesh, scene)));
-		}
+	// process all the node's meshes (if any)
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		LOG("Processing mesh: %d of %d.", i + 1, node->mNumMeshes);
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+		meshes.push_back(new Mesh(processMesh(mesh, scene)));
+	}
 	// then do the same for each of its children
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		LOG("Processing node child");
 		processNode(node->mChildren[i], scene);
 	}
 }
