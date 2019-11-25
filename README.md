@@ -12,7 +12,7 @@ https://github.com/JordiRomagosa/Sonata-Engine
 ### How to use
 Drag and drop an .fbx file from anywhere. The model is automatically loaded and shown on screen.
 
-####Controls
+#### Controls
 - **Right click:** enables camera rotation and WASDQE inputs.
 - **WS:** moves the camera forward and back.
 - **AD:** moves the camera left and right.
