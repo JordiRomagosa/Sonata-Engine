@@ -17,11 +17,11 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void ControlCameraInputKeys();
-	void ControlMouseEvents(SDL_Event & event);
-	void DroppedFile(char * path);
+	void ControlCameraInputKeys() const;
+	void ControlMouseEvents(const SDL_Event & event);
+	void DroppedFile(const char * path) const;
 
-	void ShowInputProperties();
+	void ShowInputProperties() const;
 
 private:
 	const Uint8 *keyboard = NULL;

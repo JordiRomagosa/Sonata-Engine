@@ -188,7 +188,7 @@ void ModuleEditor::ViewMenu()
 	ImGui::EndMainMenuBar();
 }
 
-void ModuleEditor::ShowAboutWindow()
+void ModuleEditor::ShowAboutWindow() const
 {
 	ImGui::Begin("About");
 
@@ -221,14 +221,14 @@ void ModuleEditor::ShowAboutWindow()
 	ImGui::End();
 }
 
-void ModuleEditor::ShowConsoleWindow()
+void ModuleEditor::ShowConsoleWindow() const
 {
 	ImGui::Begin("Console");
 	ImGui::TextUnformatted(consoleBuffer.begin());
 	ImGui::End();
 }
 
-void ModuleEditor::ShowConfigurationWindow()
+void ModuleEditor::ShowConfigurationWindow() const
 {
 	ImGui::Begin("Engine Configuration");
 	if (ImGui::CollapsingHeader("Framerate Graph"))
@@ -266,7 +266,7 @@ void ModuleEditor::ShowConfigurationWindow()
 	ImGui::End();
 }
 
-void ModuleEditor::ShowModelPropertiesWindow()
+void ModuleEditor::ShowModelPropertiesWindow() const
 {
 	ImGui::Begin("Model Properties");
 	App->modelLoader->ShowModelProperties();

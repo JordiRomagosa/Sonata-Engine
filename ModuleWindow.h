@@ -21,10 +21,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void SetFullScreen();
-	void SetResizable();
-	void SetBordered();
-	void SetBrightness();
+	void SetFullScreen() const;
+	void SetResizable() const;
+	void SetBordered() const;
+	void SetBrightness() const;
 	void ShowWindowProperties();
 
 public:

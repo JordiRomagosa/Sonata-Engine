@@ -37,7 +37,7 @@ bool ModuleProgram::Init()
 	return true;
 }
 
-char * ModuleProgram::LoadShader(char * filename)
+char * ModuleProgram::LoadShader(const char * filename) const
 {
 	char* data = nullptr;
 	FILE* file = nullptr;
@@ -59,7 +59,7 @@ char * ModuleProgram::LoadShader(char * filename)
 	return data;
 }
 
-void ModuleProgram::CompileShader(unsigned int shader, char * data)
+void ModuleProgram::CompileShader(unsigned const int shader, const char * data) const
 {
 	glShaderSource(shader, 1, &data, NULL);
 	glCompileShader(shader);
@@ -76,7 +76,7 @@ void ModuleProgram::CompileShader(unsigned int shader, char * data)
 		LOG("Shader compilation success");
 }
 
-void ModuleProgram::CompileProgram(unsigned int & program, unsigned int & vertexShader, unsigned int & fragmentShader)
+void ModuleProgram::CompileProgram(unsigned int & program, unsigned const int & vertexShader, unsigned const int & fragmentShader) const
 {
 	program = glCreateProgram();
 	glAttachShader(program, vertexShader);

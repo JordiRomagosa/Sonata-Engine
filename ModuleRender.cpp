@@ -112,14 +112,14 @@ bool ModuleRender::CleanUp()
 	return true;
 }
 
-void ModuleRender::WindowResized(unsigned width, unsigned height)
+void ModuleRender::WindowResized(unsigned const width, unsigned const height)
 {
 	windowWidth = width;
 	windowHeight = height;
 	App->camera->SetAspectRatio((float)width, (float)height);
 }
 
-void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj)
+void ModuleRender::RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj) const
 {
 	glUseProgram(App->program->gridProgram);
 

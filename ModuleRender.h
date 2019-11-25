@@ -20,7 +20,7 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-	void WindowResized(unsigned width, unsigned height);
+	void WindowResized(unsigned const width, unsigned const height);
 
 	void ShowRenderProperties();
 
@@ -32,7 +32,7 @@ private:
 	bool showGrid = true;
 	bool showModel = true;
 
-	void RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj);
+	void RenderGrid(math::float4x4 & model, math::float4x4 & view, math::float4x4 & proj) const;
 };
 
 #endif __ModuleRender_H__

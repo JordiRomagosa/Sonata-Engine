@@ -83,7 +83,7 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
-void ModuleWindow::SetFullScreen()
+void ModuleWindow::SetFullScreen() const
 {
 	if (fullscreenDesktop)
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -93,7 +93,7 @@ void ModuleWindow::SetFullScreen()
 		SDL_SetWindowFullscreen(window, 0);
 }
 
-void ModuleWindow::SetResizable()
+void ModuleWindow::SetResizable() const
 {
 	if (resizable)
 		SDL_SetWindowResizable(window, SDL_TRUE);
@@ -101,7 +101,7 @@ void ModuleWindow::SetResizable()
 		SDL_SetWindowResizable(window, SDL_FALSE);
 }
 
-void ModuleWindow::SetBordered()
+void ModuleWindow::SetBordered() const
 {
 	if (bordered)
 		SDL_SetWindowBordered(window, SDL_TRUE);
@@ -109,10 +109,9 @@ void ModuleWindow::SetBordered()
 		SDL_SetWindowBordered(window, SDL_FALSE);
 }
 
-void ModuleWindow::SetBrightness()
+void ModuleWindow::SetBrightness() const
 {
 	SDL_SetWindowBrightness(window, brightness);
-	LOG("Set brightness");
 }
 
 void ModuleWindow::ShowWindowProperties()

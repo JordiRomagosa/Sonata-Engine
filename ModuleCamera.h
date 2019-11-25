@@ -12,15 +12,15 @@ public:
 
 	bool Init();
 
-	math::float4x4 GetViewMatrix();
-	math::float4x4 GetProjectionMatrix();
-	void SetFov(float verticalFov);
-	void SetAspectRatio(float height, float width);
-	void TranslateCamera(float x, float y, float z, bool shift);
-	void RotateCamera(float pitch, float yaw);
-	void ZoomCamera(bool zoomIn, bool shift);
-	void OrbitCamera(float x, float y);
-	void LookAt(float3 target);
+	math::float4x4 GetViewMatrix() const;
+	math::float4x4 GetProjectionMatrix() const;
+	void SetFov(const float verticalFov);
+	void SetAspectRatio(const float height, const float width);
+	void TranslateCamera(const float x, const float y, const float z, const bool shift);
+	void RotateCamera(const float pitch, const float yaw);
+	void ZoomCamera(const bool zoomIn, const bool shift);
+	void OrbitCamera(const float yaw, const float pitch);
+	void LookAt(const float3 target);
 	void FocusCameraOnModel();
 
 	void ShowCameraProperties();

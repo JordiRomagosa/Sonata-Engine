@@ -23,7 +23,7 @@ public:
 	/*  Functions  */
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, AABB boundingBox);
 	~Mesh();
-	void Draw(unsigned int program) const;
+	void Draw(unsigned const int program) const;
 
 private:
 	/*  Render data  */

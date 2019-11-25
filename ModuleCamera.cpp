@@ -35,11 +35,13 @@ bool ModuleCamera::Init()
 	return true;
 }
 
-math::float4x4 ModuleCamera::GetViewMatrix() {
+math::float4x4 ModuleCamera::GetViewMatrix() const
+{
 	return frustum.ViewMatrix();
 }
 
-math::float4x4 ModuleCamera::GetProjectionMatrix() {
+math::float4x4 ModuleCamera::GetProjectionMatrix() const
+{
 	return frustum.ProjectionMatrix();
 }
 
@@ -51,13 +53,13 @@ void ModuleCamera::SetFov(float verticalFov)
 	frustum.horizontalFov = frustum.verticalFov *aspect;
 }
 
-void ModuleCamera::SetAspectRatio(float height, float width)
+void ModuleCamera::SetAspectRatio(const float height, const float width)
 {
 	float aspect = height / width;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 }
 
-void ModuleCamera::TranslateCamera(float x, float y, float z, bool shift)
+void ModuleCamera::TranslateCamera(const float x, const float y, const float z, const bool shift)
 {
 	float speedMult = 1;
 	if (shift)
@@ -71,7 +73,7 @@ void ModuleCamera::TranslateCamera(float x, float y, float z, bool shift)
 		frustum.pos += z * frustum.front * cameraMovementSpeed * speedMult;
 }
 
-void ModuleCamera::RotateCamera(float pitch, float yaw)
+void ModuleCamera::RotateCamera(const float pitch, const float yaw)
 {
 	math::float3x3 rotationMatrix = math::float3x3::identity;
 	float anglePitch = math::DegToRad(-pitch * cameraRotationSpeed);
@@ -99,7 +101,7 @@ void ModuleCamera::RotateCamera(float pitch, float yaw)
 	cameraRight = frustum.up.Cross(frustum.front); cameraRight.Normalize();
 }
 
-void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
+void ModuleCamera::ZoomCamera(const bool zoomIn, const bool shift)
 {
 	float3 cameraFront = frustum.front; cameraFront.Normalize();
 	float speedMult = 5;
@@ -112,8 +114,9 @@ void ModuleCamera::ZoomCamera(bool zoomIn, bool shift)
 	frustum.pos += cameraFront * cameraMovementSpeed * speedMult;
 }
 
-void ModuleCamera::OrbitCamera(float yaw, float pitch)
+void ModuleCamera::OrbitCamera(const float yaw, const float pitch)
 {
+	float pitchMod = pitch;
 	float3 center = App->modelLoader->GetModelCenter();
 
 	if (yaw != 0.0f)
@@ -126,26 +129,26 @@ void ModuleCamera::OrbitCamera(float yaw, float pitch)
 	{
 		if (currentPitch + pitch > 89)
 		{
-			pitch = 89 - currentPitch;
+			pitchMod = 89 - currentPitch;
 			currentPitch = 89;
 		}
 			
 		else if (currentPitch + pitch < -89)
 		{
-			pitch = -89 - currentPitch;
+			pitchMod = -89 - currentPitch;
 			currentPitch = -89;
 		}
 		else
-			currentPitch += pitch * cameraRotationSpeed;
+			currentPitch += pitchMod * cameraRotationSpeed;
 
-		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(-1.0 * pitch * cameraRotationSpeed));
+		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(-1.0 * pitchMod * cameraRotationSpeed));
 		frustum.pos = rot.Transform(frustum.pos - center) + center;
 	}
 
 	LookAt(center);
 }
 
-void ModuleCamera::LookAt(float3 target)
+void ModuleCamera::LookAt(const float3 target)
 {
 	float3 newFront = target - frustum.pos; newFront.Normalize();
 	float3x3 rot = float3x3::LookAt(frustum.front, newFront, frustum.up, float3::unitY);
@@ -157,6 +160,8 @@ void ModuleCamera::LookAt(float3 target)
 
 void ModuleCamera::FocusCameraOnModel()
 {
+	if (!App->modelLoader->isModelLoaded)
+		return;
 	float3 modelCenter = App->modelLoader->GetModelCenter();
 	LookAt(modelCenter);
 

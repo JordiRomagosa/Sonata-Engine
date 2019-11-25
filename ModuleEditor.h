@@ -36,10 +36,10 @@ private:
 private:
 	update_status GeneralMenu();
 	void ViewMenu();
-	void ShowAboutWindow();
-	void ShowConsoleWindow();
-	void ShowConfigurationWindow();
-	void ShowModelPropertiesWindow();
+	void ShowAboutWindow() const;
+	void ShowConsoleWindow() const;
+	void ShowConfigurationWindow() const;
+	void ShowModelPropertiesWindow() const;
 	void UpdateFrameBuffer();
 };
 

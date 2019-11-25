@@ -3,6 +3,7 @@
 #include "ModuleModelLoader.h"
 #include "ModuleTexture.h"
 #include "ModuleCamera.h"
+#include "AssimpLog.h"
 
 #include <Assimp/cimport.h>
 #include <Assimp/postprocess.h>
@@ -23,11 +24,10 @@ ModuleModelLoader::~ModuleModelLoader()
 
 bool ModuleModelLoader::Init()
 {
-	loadModel("./BakerHouse.fbx");
 	return true;
 }
 
-void ModuleModelLoader::Draw(unsigned int program)
+void ModuleModelLoader::Draw(unsigned const int program) const
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
 		meshes[i]->Draw(program);
@@ -173,7 +173,7 @@ Mesh ModuleModelLoader::processMesh(aiMesh * mesh, const aiScene * scene)
 	return Mesh(vertices, indices, textures, boundingBox);
 }
 
-string ModuleModelLoader::computeDirectory(const string path)
+string ModuleModelLoader::computeDirectory(const string path) const
 {
 	size_t simpleRightSlash = path.find_last_of('/');
 	if (string::npos != simpleRightSlash)
@@ -210,7 +210,7 @@ void ModuleModelLoader::emptyScene()
 	//modelBox.clear();
 }
 
-AABB ModuleModelLoader::GetModelAABB()
+AABB ModuleModelLoader::GetModelAABB() const
 {
 	AABB totalBoundingBox;
 	if (isModelLoaded)
@@ -226,7 +226,7 @@ AABB ModuleModelLoader::GetModelAABB()
 	return totalBoundingBox;
 }
 
-float3 ModuleModelLoader::GetModelCenter()
+float3 ModuleModelLoader::GetModelCenter() const
 {
 	if (isModelLoaded)
 	{
@@ -251,7 +251,7 @@ float3 ModuleModelLoader::GetModelCenter()
 	return float3(0, 0, 0);
 }
 
-void ModuleModelLoader::ShowModelProperties()
+void ModuleModelLoader::ShowModelProperties() const
 {
 	if (ImGui::CollapsingHeader("Transformation")) //mockup, since model matrix can't change
 	{

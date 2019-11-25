@@ -44,7 +44,7 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	LOG("Trying to load texture as specified in fbx file: %s.\n", filepath.c_str());
+	LOG("Trying to load texture as specified in fbx file: %s.", filepath.c_str());
 
 	//Loading image
 	ILuint image;
@@ -56,7 +56,7 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	{
 		size_t lastSlash = filepath.find_last_of('\\');
 		filepath = directory + filepath.substr(lastSlash, string::npos);
-		LOG("Trying to load texture from same directory as fbx: %s.\n", filepath.c_str());
+		LOG("Trying to load texture from same directory as fbx: %s.", filepath.c_str());
 		imageLoaded = ilLoadImage(filepath.c_str());
 	}
 
@@ -64,13 +64,21 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	{
 		filepath = "../Textures/";
 		filepath.append(path);
-		LOG("Trying to load texture from Textures folder: %s.\n", filepath.c_str());
+		LOG("Trying to load texture from Textures folder: %s.", filepath.c_str());
 		imageLoaded = ilLoadImage(filepath.c_str());
 	}
 
 	if (!imageLoaded)
 	{
 		LOG("Cannot find texture.");
+		return;
+	}
+
+	bool isRGB = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+	if (!isRGB)
+	{
+		ILenum error = ilGetError();
+		LOG("Error converting image to rgb: %s - %s", std::to_string(error), iluErrorString(error));
 		return;
 	}
 
@@ -110,12 +118,6 @@ void ModuleTexture::LoadTextureForModels(const char * path, const string directo
 	//Delete image
 	iluDeleteImage(image);
 
-	//Fill shader render with texture name
-	//GLuint textureOutput = glGetUniformLocation(App->renderer->progModel,
-		//"myTexture");
-	//glUniform1i(textureOutput, textureID);
-
-
 	texture.id = textureID;
 
 	return;
@@ -149,7 +151,7 @@ vector<Texture> ModuleTexture::loadMaterialTextures(aiMaterial * mat, aiTextureT
 			LoadTextureForModels(str.C_Str(), directory, texture);
 			texture.type = typeName;
 			textures.push_back(texture);
-			textures_loaded.push_back(texture); //adding new texture to texture loaded
+			textures_loaded.push_back(texture);
 		}
 
 

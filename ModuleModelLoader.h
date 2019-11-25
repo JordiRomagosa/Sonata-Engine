@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <Assimp/scene.h>
-#include <Assimp/LogStream.hpp>
 
 class float4x4;
 
@@ -18,13 +17,13 @@ public:
 
 	bool Init();
 
-	void Draw(unsigned int program);
-	void loadModel(std::string path);
-	void loadTexture(std::string path);
-	AABB GetModelAABB();
+	void Draw(unsigned const int program) const;
+	void loadModel(const std::string path);
+	void loadTexture(const std::string path);
+	AABB GetModelAABB() const;
 
-	float3 GetModelCenter();
-	void ShowModelProperties();
+	float3 GetModelCenter() const;
+	void ShowModelProperties() const;
 	 
 	bool isModelLoaded = false;
 	math::float4x4 model = math::float4x4::FromTRS(float3(0, 0, 0), math::float3x3::RotateX(0.0f) * math::float3x3::RotateY(0.0f), math::float3(1.0f, 1.0f, 1.0f));
@@ -38,25 +37,9 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 
-	std::string computeDirectory(const std::string path);
+	std::string computeDirectory(const std::string path) const;
 	void emptyScene();
 
-};
-
-class AssimpLog : public Assimp::LogStream
-{
-public:
-	void write(const char* message)
-	{
-		std::string str = message;
-		std::size_t characterError = str.find_first_of("%\\");
-		while (characterError != std::string::npos)
-		{
-			str[characterError] = '%\\';
-			characterError = str.find_first_of("%\\", characterError + 1);
-		}
-		LOG(str.c_str());
-	}
 };
 
 #endif __ModuleModelLoader_H__

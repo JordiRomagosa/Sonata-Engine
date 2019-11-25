@@ -379,6 +379,7 @@
     <ClInclude Include="ModuleEditor.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="AssimpLog.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">

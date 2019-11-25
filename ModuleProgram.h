@@ -15,9 +15,9 @@ public:
 	unsigned int modelProgram;
 
 private:
-	char * LoadShader(char * filename);
-	void CompileShader(unsigned int shader, char * data);
-	void CompileProgram(unsigned int & program, unsigned int & vertexShader, unsigned int & fragmentShader);
+	char * LoadShader(const char * filename) const;
+	void CompileShader(unsigned const int shader, const char * data) const;
+	void CompileProgram(unsigned int & program, unsigned const int & vertexShader, unsigned const int & fragmentShader) const;
 };
 
 #endif __ModuleProgram_H__

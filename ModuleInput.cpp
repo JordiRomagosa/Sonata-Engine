@@ -77,7 +77,7 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
-void ModuleInput::ControlCameraInputKeys()
+void ModuleInput::ControlCameraInputKeys() const
 {
 	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
 	
@@ -118,7 +118,7 @@ void ModuleInput::ControlCameraInputKeys()
 		App->camera->FocusCameraOnModel();
 }
 
-void ModuleInput::ControlMouseEvents(SDL_Event & event)
+void ModuleInput::ControlMouseEvents(const SDL_Event & event)
 {
 	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
 	bool alt = keyboard[SDL_SCANCODE_LALT] || keyboard[SDL_SCANCODE_RALT];
@@ -162,7 +162,7 @@ void ModuleInput::ControlMouseEvents(SDL_Event & event)
 	}
 }
 
-void ModuleInput::DroppedFile(char * path)
+void ModuleInput::DroppedFile(const char * path) const
 {
 	string sPath = path;
 	size_t pos = sPath.find_last_of('.');
@@ -174,7 +174,7 @@ void ModuleInput::DroppedFile(char * path)
 		App->modelLoader->loadTexture(path);
 }
 
-void ModuleInput::ShowInputProperties()
+void ModuleInput::ShowInputProperties() const
 {
 	ImGui::Text("Mouse Position: x:%.2f y:%.2f", currentMouseX, currentMouseY);
 
