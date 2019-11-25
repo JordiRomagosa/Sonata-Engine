@@ -141,7 +141,7 @@ void ModuleCamera::OrbitCamera(const float yaw, const float pitch)
 		else
 			currentPitch += pitchMod * cameraRotationSpeed;
 
-		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(-1.0 * pitchMod * cameraRotationSpeed));
+		float3x3 rot = float3x3::RotateAxisAngle(cameraRight, math::DegToRad(-1.0f * pitchMod * cameraRotationSpeed));
 		frustum.pos = rot.Transform(frustum.pos - center) + center;
 	}
 
@@ -166,7 +166,7 @@ void ModuleCamera::FocusCameraOnModel()
 	LookAt(modelCenter);
 
 	float maxModelAxis = App->modelLoader->GetModelAABB().Size().MaxElement();
-	frustum.pos = modelCenter - frustum.front * (1.5 * maxModelAxis);
+	frustum.pos = modelCenter - frustum.front * (1.5f * maxModelAxis);
 }
 
 void ModuleCamera::ShowCameraProperties()
@@ -176,14 +176,14 @@ void ModuleCamera::ShowCameraProperties()
 	ImGui::Text("Camera Up: x:%.2f y:%.2f z:%.2f", frustum.up.x, frustum.up.y, frustum.up.z);
 
 	ImGui::Separator();
-	if (ImGui::SliderFloat("Vertical FOV", &verticalFov, 0.01, math::pi - 0.01, "%.3f"))
+	if (ImGui::SliderFloat("Vertical FOV", &verticalFov, 0.01f, math::pi - 0.01f, "%.3f"))
 		SetFov(verticalFov);
 	ImGui::SliderFloat("Near Plane", &frustum.nearPlaneDistance, 1, 100, "%.0f");
 	ImGui::SliderFloat("Far Plane", &frustum.farPlaneDistance, 10, 1000, "%.0f");
 	if (frustum.nearPlaneDistance > frustum.farPlaneDistance)
-		frustum.farPlaneDistance = frustum.nearPlaneDistance + 0.1;
+		frustum.farPlaneDistance = frustum.nearPlaneDistance + 0.1f;
 
-	ImGui::SliderFloat("Movement Speed", &cameraMovementSpeed, 0.01, 1, "%.2f");
-	ImGui::SliderFloat("Rotation Speed", &cameraRotationSpeed, 0.01, 1, "%.2f");
-	ImGui::SliderFloat("Shift Speed Modifier", &shiftSpeedMultiplier, 1, 5, "%.1f");
+	ImGui::SliderFloat("Movement Speed", &cameraMovementSpeed, 0.01f, 1.0f, "%.2f");
+	ImGui::SliderFloat("Rotation Speed", &cameraRotationSpeed, 0.01f, 1.0f, "%.2f");
+	ImGui::SliderFloat("Shift Speed Modifier", &shiftSpeedMultiplier, 1.0f, 5.0f, "%.1f");
 }

@@ -15,7 +15,7 @@ public:
 		std::size_t characterError = str.find_first_of("%\\");
 		while (characterError != std::string::npos)
 		{
-			str[characterError] = '%\\';
+			str[characterError] = '\\';
 			characterError = str.find_first_of("%\\", characterError + 1);
 		}
 		LOG(str.c_str());

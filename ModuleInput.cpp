@@ -82,7 +82,7 @@ void ModuleInput::ControlCameraInputKeys() const
 	bool shift = keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT];
 	
 	//Translate the camera with WASD + QE
-	int moveX = 0, moveY = 0, moveZ = 0;
+	float moveX = 0, moveY = 0, moveZ = 0;
 
 	if (keyboard[SDL_SCANCODE_D] && !keyboard[SDL_SCANCODE_A])
 		moveX = 1;
@@ -101,7 +101,7 @@ void ModuleInput::ControlCameraInputKeys() const
 		App->camera->TranslateCamera(moveX, moveY, moveZ, shift);
 
 	//Rotate camera with arrows
-	int pitch = 0, yaw = 0;
+	float pitch = 0, yaw = 0;
 	if (keyboard[SDL_SCANCODE_UP] && !keyboard[SDL_SCANCODE_DOWN])
 		pitch = 1;
 	else if (keyboard[SDL_SCANCODE_DOWN] && !keyboard[SDL_SCANCODE_UP])
@@ -130,8 +130,8 @@ void ModuleInput::ControlMouseEvents(const SDL_Event & event)
 		break;
 
 	case SDL_MOUSEBUTTONDOWN:
-		lastMouseX = event.button.x;
-		lastMouseY = event.button.y;
+		lastMouseX = (float)event.button.x;
+		lastMouseY = (float)event.button.y;
 
 		if (event.button.button == SDL_BUTTON_RIGHT)
 			rightMousePressed = true;
@@ -147,8 +147,8 @@ void ModuleInput::ControlMouseEvents(const SDL_Event & event)
 		break;
 
 	case SDL_MOUSEMOTION:
-		currentMouseX = event.button.x;
-		currentMouseY = event.button.y;
+		currentMouseX = (float)event.button.x;
+		currentMouseY = (float)event.button.y;
 
 		if (rightMousePressed)
 			App->camera->RotateCamera(lastMouseY - currentMouseY, currentMouseX - lastMouseX);

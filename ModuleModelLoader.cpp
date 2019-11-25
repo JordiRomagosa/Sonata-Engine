@@ -68,13 +68,13 @@ void ModuleModelLoader::loadTexture(const string path)
 	if (!isModelLoaded)
 		return;
 
-	//LOG("Importing texture \n");
+	LOG("Importing texture \n");
 
 	Texture texture;
 	directory = "";
 	
 	App->texture->LoadTextureForModels(path.c_str(), directory, texture);
-	for (int i = 0; i < meshes.size(); i++)
+	for (unsigned i = 0; i < meshes.size(); i++)
 	{
 		meshes[i]->textures.clear();
 		meshes[i]->textures.push_back(texture);
@@ -181,18 +181,18 @@ string ModuleModelLoader::computeDirectory(const string path) const
 		LOG("Directory with simpleRightSlashes.")
 			return path.substr(0, path.find_last_of('/') + 1);
 	}
-	size_t doubleRightSlash = path.find_last_of('//');
+	size_t doubleRightSlash = path.find_last_of("//");
 	if (string::npos != doubleRightSlash)
 	{
 		LOG("Directory with doubleRightSlashes.")
-			return path.substr(0, path.find_last_of('//') + 1);
+			return path.substr(0, path.find_last_of("//") + 1);
 	}
 
-	size_t doubleLeftSlash = path.find_last_of('\\');
+	size_t doubleLeftSlash = path.find_last_of("\\");
 	if (string::npos != doubleLeftSlash)
 	{
 		LOG("Directory with doubleLeftSlashes.")
-			return path.substr(0, path.find_last_of('\\') + 1);
+			return path.substr(0, path.find_last_of("\\") + 1);
 	}
 
 	LOG("ERROR: Invalid path.");
@@ -217,7 +217,7 @@ AABB ModuleModelLoader::GetModelAABB() const
 	{
 		totalBoundingBox = meshes[0]->boundingBox;
 
-		for (int i = 1; i < meshes.size(); i++)
+		for (unsigned i = 1; i < meshes.size(); i++)
 		{
 			totalBoundingBox.Enclose(meshes[i]->boundingBox);
 		}
@@ -233,7 +233,7 @@ float3 ModuleModelLoader::GetModelCenter() const
 		float3 minPoint = meshes[0]->boundingBox.minPoint;
 		float3 maxPoint = meshes[0]->boundingBox.maxPoint;
 
-		for (int i = 1; i < meshes.size(); i++)
+		for (unsigned i = 1; i < meshes.size(); i++)
 		{
 			float3 newMinPoint = meshes[i]->boundingBox.minPoint;
 			float3 newMaxPoint = meshes[i]->boundingBox.maxPoint;
@@ -267,7 +267,7 @@ void ModuleModelLoader::ShowModelProperties() const
 		int triCount = 0;
 
 		if (meshes.size() > 0)
-			for (int i = 0; i < meshes.size(); i++)
+			for (unsigned i = 0; i < meshes.size(); i++)
 				triCount += meshes[i]->indices.size();
 		ImGui::Text("Number Triangles: %d", triCount/3);
 		ImGui::Text("Number Indexes: %d", triCount);
@@ -275,7 +275,7 @@ void ModuleModelLoader::ShowModelProperties() const
 		int verCount = 0;
 
 		if (meshes.size() > 0)
-			for (int i = 0; i < meshes.size(); i++)
+			for (unsigned i = 0; i < meshes.size(); i++)
 				verCount += meshes[i]->vertices.size();
 		ImGui::Text("Number Vertices: %d", verCount);
 	}
@@ -283,9 +283,9 @@ void ModuleModelLoader::ShowModelProperties() const
 	if (ImGui::CollapsingHeader("Texture"))
 	{
 		vector<Texture> textures;
-		for (int i = 0; i < meshes.size(); i++)
+		for (unsigned i = 0; i < meshes.size(); i++)
 		{
-			for (int c = 0; c < meshes[i]->textures.size(); c++)
+			for (unsigned c = 0; c < meshes[i]->textures.size(); c++)
 			{
 				if (textures.size() == 0)
 					textures.push_back(meshes[i]->textures[c]);
@@ -308,7 +308,7 @@ void ModuleModelLoader::ShowModelProperties() const
 			ImGui::Text("Texture Size: %dx%d px", it->width, it->height);
 			ImGui::Text("Texture Type: %s", it->type.c_str());
 
-			float proportion = it->width / it->height;
+			float proportion = (float)it->width / (float)it->height;
 			ImGui::Image((void*)(intptr_t)it->id, ImVec2(200, 200 * proportion), ImVec2(0,1), ImVec2(1,0));
 		}
 	}

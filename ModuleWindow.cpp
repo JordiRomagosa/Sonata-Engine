@@ -29,8 +29,8 @@ bool ModuleWindow::Init()
 		//Create window
 		SDL_DisplayMode DM;
 		SDL_GetCurrentDisplayMode(0, &DM);
-		int width = DM.w * 0.95;
-		int height = DM.h * 0.9;
+		int width = (int)(DM.w * 0.95);
+		int height = (int)(DM.h * 0.9);
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
 
 		if(FULLSCREEN == true)
